@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Basic Page Needs
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta charset="utf-8">
+		<title>VSS Calendar</title>
+		<meta name="description" content="">
+		<meta
+		name="author" content="">
+
+		<!-- Mobile Specific Metas
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- FONT
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link
+		href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+		<!-- CSS
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="stylesheet" href="../stylesheets/normalize.css">
+		<link
+		rel="stylesheet" href="../stylesheets/skeleton.css">
+
+		<!-- Favicon
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="icon" type="image/png" href="../images/favicon.png">
+
+		<style>
+			.calendar {
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				gap: 10px;
+			}
+			.day-card {
+				padding: 10px;
+				border: 1px solid #ccc;
+				text-align: center;
+			}
+			.day-header {
+				font-weight: bold;
+				text-align: center;
+			}
+			.empty-cell {
+				visibility: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="'row">
+				<div class="one-half column" style="margin-top: 25%">
+
+
+					<h2>VSS Calendar for
+						<%= month %>/<%= year %></h2>
+					<p>Welcome,
+						<%= username %>!
+					</p>
+					<a href="/pigeons/form">Go to Pigeon Form</a><br><br>
+
+					<!-- Calendar UI Goes Here -->
+
+					<form action="/calendar" method="get">
+						<label for="year">Year:</label>
+						<input type="number" id="year" name="year" value="<%= year %>" min="2025" max="2026" required>
+						<label for="month">Month:</label>
+						<input type="number" id="month" name="month" value="<%= month %>" min="4" max="7" required>
+						<button type="submit">View Month</button>
+					</form>
+					<div
+						class="calendar">
+						<!-- Day headers -->
+						<div class="day-header">Sun</div>
+						<div class="day-header">Mon</div>
+						<div class="day-header">Tue</div>
+						<div class="day-header">Wed</div>
+						<div class="day-header">Thu</div>
+						<div class="day-header">Fri</div>
+						<div class="day-header">Sat</div>
+						<!-- Render calendar days -->
+						<% for (let i = 0; i < startDay; i++) { %>
+							<div class="day-card empty-cell"></div>
+						<% } %>
+						<% for (let j = 0; j < dayCards.length; j++) { %>
+							<div class="day-card">
+								<p>
+									<strong>
+										<%= dayCards[j].day %></strong>
+								</p>
+								<% if (dayCards[j].amCount > 0) { %>
+									<p>AM:
+										<%= dayCards[j].amCount %></p>
+								<% } %>
+								<% if (dayCards[j].pmCount > 0) { %>
+									<p>PM:
+										<%= dayCards[j].pmCount %></p>
+								<% } %>
+							</div>
+						<% } %>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

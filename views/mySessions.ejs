@@ -1,0 +1,71 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head>
+
+    <!-- Basic Page Needs
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Thank you!</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+  
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="../stylesheets/normalize.css">
+    <link rel="stylesheet" href="../stylesheets/skeleton.css">
+  
+    <!-- Favicon
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  </head>
+  <body> 
+    <div class="container">     
+      <div class="row">
+        <div class="one-half column" style="margin-top: 25%">
+
+          <body> <h1>Thank you, <%= vName %>!</h1> 
+           
+            <h2>You have just picked: <%= rDate %></h2> 
+            
+            <p>Availability: <h2><%= availability %></h2></p> 
+            
+            <h5>Our record shows you have sign up for the sessions:</h5> 
+            <table> 
+              <thead> 
+                <tr> 
+                  <th>Date</th> 
+                  <th>Weekday</th> 
+                  <th>Availability</th> 
+                  <th>Created At</th> 
+                </tr> 
+              </thead> 
+              <tbody> <% mySessions.forEach(function(session) { %> 
+                <tr> 
+                  
+                  <td><%= session.rDate %></td> 
+                  <td><%= session.wkDay %></td> 
+                  <td><%= session.availability %></td> 
+                  <td><%= new Date(session.createdAt).toLocaleString() %></td> 
+                  <td> 
+                    <!-- form action="/users/delete_session" method="post"--> 
+                      <!-- input type="hidden" name="id" value="<%= session._id %>"--> 
+                      <button type="submit">Delete</button> 
+                    <!-- /form -->
+                </tr> <% }); %> 
+              </tbody> 
+            </table>
+         <pn>/* The 'delete' button is still under construction at time of project submission.*/</pn>
+        </div></div></div>  
+    
+  </body> 
+</html>
+
