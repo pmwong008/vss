@@ -12,7 +12,7 @@ async function generateDayCards(month, year) {
 		
 		dayCards.push({ 
 			day: day - 1, 
-			date: new Date(year, month - 1, day),
+			date: new Date(year, month - 1, day - 1),
 			// marked: '' 
 			}
 		); 
