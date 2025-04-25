@@ -15,10 +15,10 @@ const showCalendar = async (req, res) => {
         console.log('Day Cards before updating:', dayCards, startDay);
     
         const startDate = new Date(dayCards[0].date);
-        startDate.setTime(startDate.getTime() - timezoneOffset); // Adjust to GMT+8        const endDate = new Date(dayCards[dayCards.length - 1].date);
+        startDate.setTime(startDate.getTime() + timezoneOffset); // Adjust to GMT+8        const endDate = new Date(dayCards[dayCards.length - 1].date);
         startDate.setUTCHours(0, 0, 0, 0); // Reset hours/minutes/seconds/milliseconds
         const endDate = new Date(dayCards[dayCards.length - 1].date);
-        endDate.setTime(endDate.getTime() - timezoneOffset); // Adjust to GMT+8
+        endDate.setTime(endDate.getTime() + timezoneOffset); // Adjust to GMT+8
         endDate.setUTCHours(23, 59, 59, 999);
 
         console.log('Start Date Adjusted for GMT+8:', startDate.toISOString());
