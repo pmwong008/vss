@@ -12,7 +12,7 @@ const errorHandler = require('./middleware/errorHandler');
 // const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 require('dotenv').config();
-const PORT = process.env.PORT || 3000;
+// const PORT = process.env.PORT || 3000;
 
 var indexRouter = require('./routes/root');
 
@@ -74,6 +74,6 @@ connectDB();
   console.log('Mongoose connection established');
   // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });  */
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;
