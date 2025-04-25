@@ -50,7 +50,9 @@ const showCalendar = async (req, res) => {
             const formattedDate = dayCard.date.toISOString().split('T')[0]; 
         	aggregates.forEach(aggregate => {
                 const aggregateDate = new Date(aggregate._id.date);
-                if (aggregateDate.toISOString().split('T')[0] === formattedDate) {
+                const offsetDate = new Date(aggregateDate.getTime() + aggregateDate.getTimezoneOffset()); // Adds the correct offset for the timezone
+
+                if (offsetDate.toISOString().split('T')[0] === formattedDate) {
                   if (aggregate._id.availability === 'AM') {
                     dayCard.amCount = aggregate.count;
                   } else if (aggregate._id.availability === 'PM') {
