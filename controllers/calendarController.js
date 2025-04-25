@@ -51,7 +51,7 @@ const showCalendar = async (req, res) => {
         	aggregates.forEach(aggregate => {
                 const aggregateDate = new Date(aggregate._id.date);
                 const offsetHours = 16 * 60 * 60 * 1000;
-                const offsetDate = new Date(aggregateDate.getTime() + aggregateDate.getTimezoneOffset() + offsetHours); // Adds the correct offset for the timezone
+                const offsetDate = new Date(aggregateDate.getTime() + offsetHours); // Adds the correct offset for the timezone
 
                 if (offsetDate.toISOString().split('T')[0] === formattedDate) {
                   if (aggregate._id.availability === 'AM') {
