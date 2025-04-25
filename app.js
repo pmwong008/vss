@@ -74,6 +74,12 @@ connectDB();
   console.log('Mongoose connection established');
   // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });  */
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (require.main === module) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
+
 
 module.exports = app;
