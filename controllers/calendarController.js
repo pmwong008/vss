@@ -50,7 +50,8 @@ const showCalendar = async (req, res) => {
             const formattedDate = dayCard.date.toISOString().split('T')[0]; 
         	aggregates.forEach(aggregate => {
                 const aggregateDate = new Date(aggregate._id.date);
-                const offsetDate = new Date(aggregateDate.getTime() + aggregateDate.getTimezoneOffset()); // Adds the correct offset for the timezone
+                const offsetHours = 16 * 60 * 60 * 1000;
+                const offsetDate = new Date(aggregateDate.getTime() + aggregateDate.getTimezoneOffset() + offsetHours); // Adds the correct offset for the timezone
 
                 if (offsetDate.toISOString().split('T')[0] === formattedDate) {
                   if (aggregate._id.availability === 'AM') {
