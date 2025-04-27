@@ -39,12 +39,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.get('/favicon.ico', (req, res) => {
+  // res.set('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
   res.status(204).end(); // Sends a 204 No Content response
 });
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/auth', require('./routes/auth'));

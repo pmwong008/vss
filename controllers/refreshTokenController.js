@@ -2,6 +2,7 @@ const User = require('../model/User');
 const jwt = require('jsonwebtoken');
 
 const handleRefreshToken = async (req, res) => {
+    console.log("Start handling refreshToken!");
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
@@ -20,6 +21,7 @@ const handleRefreshToken = async (req, res) => {
                     "UserInfo": {
                         "username": decoded.username,
                         "roles": roles
+                        
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,

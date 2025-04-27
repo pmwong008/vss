@@ -1,17 +1,47 @@
 const Pigeon = require('../model/Pigeon');
 
+const servePigeonForm = async (req, res) => {
+    const username = req.cookies?.username;
+    res.render('pigeonForm', { vName: username, title: 'Pigeon Form' });
+}
+
 const getAllPigeons = async (req, res) => {
     const pigeons = await Pigeon.find();
-    if (!pigeonss) return res.status(204).json({ 'message': 'No pigeons found.' });
+    if (!pigeons) return res.status(204).json({ 'message': 'No pigeons found.' });
     res.json(pigeons);
+}
+
+const getUserPigeons = async (req, res) => {
+	
+    try {
+		console.log("Get User Pigeons route hit!"); 
+		console.log("Query Parameters:", req.query); // Debug query parameters
+        const username = req.query?.username;// Check for valid username
+        if (!username || typeof username !== 'string') {
+            return res.status(400).json({ message: "Invalid username provided." });
+        }
+		console.log("Username from query:", username); // Debug username
+		const pigeons = await Pigeon.find({ vName: username }).exec();
+
+		if (!pigeons || pigeons.length === 0) {
+			return res.status(204).json({ 'message': 'No pigeons found.' });
+		}
+
+		res.json(pigeons);
+	
+	} catch (error) {
+		console.error("Error while trying to find pigeons:", error);
+		return res.status(500).json({ message: "Error while trying to find pigeons" });
+	}
+    
 }
 
 const createPigeon = async (req, res) => {
 	
-	// console.log('Request Body:', req.body); // Log incoming data
+	console.log('Request Body:', req.body); // Log incoming data
     try {
-		const username = req.cookies?.username; // Handle missing user info
-
+		const username = req.cookies?.username;
+		console.log("Username from cookie:", username); // Debug username
         const { rDate, availability } = req.body;
 		
         if (!req.body.rDate || !req.body.availability) {
@@ -51,7 +81,10 @@ const createPigeon = async (req, res) => {
 		
 		// Save the document
 		const result = await document.save();
-		console.log(result);
+		console.log("Document inserted:", result);
+		console.log("Route parameters:", req.params); // Debug route parameters
+        console.log("Request username:", username); // Debug username
+		res.redirect(303, `/pigeons/getUserPigeons?username=${username}`);
 
 	} catch (error) {
 		console.error("Error while trying to insert document into Pigeons:", error);
@@ -83,8 +116,9 @@ const getPigeon = async (req, res) => {
 }
 
 module.exports = {
-    
+    servePigeonForm,
     getAllPigeons,
+    getUserPigeons,
     createPigeon,
     deletePigeon,
     getPigeon
