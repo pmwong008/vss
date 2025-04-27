@@ -1,3 +1,4 @@
+const mongoose = require('mongoose'); // Import the Mongoose library
 const Pigeon = require('../model/Pigeon');
 
 const servePigeonForm = async (req, res) => {
@@ -17,17 +18,22 @@ const getUserPigeons = async (req, res) => {
 		console.log("Get User Pigeons route hit!"); 
 		console.log("Query Parameters:", req.query); // Debug query parameters
         const username = req.query?.username;// Check for valid username
-        if (!username || typeof username !== 'string') {
+		// const { username } = req.cookies; 
+		// const sortOrder = req.query?.order === "desc" ? -1 : 1; // Default to ascending order
+		if (!username || typeof username !== 'string') {
             return res.status(400).json({ message: "Invalid username provided." });
         }
 		console.log("Username from query:", username); // Debug username
 		const pigeons = await Pigeon.find({ vName: username }).exec();
+		// const pigeons = await Pigeon.find({ vName: username }).sort({ rDate: sortOrder }).exec();
 
 		if (!pigeons || pigeons.length === 0) {
 			return res.status(204).json({ 'message': 'No pigeons found.' });
 		}
 
-		res.json(pigeons);
+		//res.json(pigeons);
+		// res.render('pigeonsByUsername', { pigeons, vName: username, sortOrder }, { async: true });
+		res.render('pigeonsByUsername', { pigeons, vName: username });
 	
 	} catch (error) {
 		console.error("Error while trying to find pigeons:", error);
@@ -94,26 +100,41 @@ const createPigeon = async (req, res) => {
 }
 
 const deletePigeon = async (req, res) => {
-    if (!req?.body?.id) return res.status(400).json({ 'message': 'Pigeon ID required.' });
+	try {
+	  const { id } = req.params; // Get session ID from the URL
+	  // const id = "68050e3c877ccd8d6a04df75"; // Hardcoded ID for testing
+	  console.log("Delete Pigeon route hit! ID received:", id); // Debug ID
+	 // Validate the format of the ID
+	 if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ message: "Invalid ID format." });
+	} 
+	 
+	  const deletedSession = await Pigeon.findByIdAndDelete(id); // Use Mongoose to delete by ID
+  
+	  if (!deletedSession) {
+		return res.status(404).json({ message: "Session not found." });
+	  }
+  
+	  res.status(200).json({ message: "Session deleted successfully." });
+	} catch (error) {
+	  console.error("Error while deleting session:", error);
+	  res.status(500).json({ message: "Internal Server Error." });
+	}
+  };
+  
 
-    const pigeon = await Pigeon.findOne({ _id: req.body.id }).exec();
-    if (!pigeon) {
-        return res.status(204).json({ "message": "No Pigeon matches your input." });
+  const getPigeon = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pigeon = await Pigeon.findById(id);
+        if (!pigeon) return res.status(404).json({ message: "Pigeon not found." });
+        res.json(pigeon);
+    } catch (error) {
+        console.error("Error fetching pigeon:", error);
+        res.status(500).json({ message: "Internal Server Error." });
     }
-    const result = await Pigeon.deleteOne(); //{ _id: req.body.id }
-    console.log("Pigeon deleted!")
-    res.json(result);
-}
+};
 
-const getPigeon = async (req, res) => {
-    if (!req?.params?.id) return res.status(400).json({ 'message': 'Pigeon ID required.' });
-
-    const pigeon = await Pigeon.findOne({ _id: req.params.id }).exec();
-    if (!pigeon) {
-        return res.status(204).json({ "message": `No Pigeon matches ID ${req.params.id}.` });
-    }
-    res.json(pigeon);
-}
 
 module.exports = {
     servePigeonForm,

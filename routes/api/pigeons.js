@@ -6,15 +6,24 @@ const verifyRoles = require('../../middleware/verifyRoles');
 const { handleRefreshToken } = require('../../controllers/refreshTokenController');
 const verifyJWT = require('../../middleware/verifyJWT');
 
+router.route('/')
+    .post(pigeonsController.createPigeon)
+
+    
+
 router.route('/form')
     .get(pigeonsController.servePigeonForm)
-    .post(pigeonsController.createPigeon)
+    
     
 // router.get('/getUserPigeons', handleRefreshToken, pigeonsController.getUserPigeons);    
 router.get('/getUserPigeons', pigeonsController.getUserPigeons);    
 
-/* router.route('/:id')
-    .get(pigeonsController.getPigeon); */
+router.route('/:id')
+    .get(pigeonsController.getPigeon)
+    
+router.route('/delete/:id')
+    
+    .delete(pigeonsController.deletePigeon)
 
 /* router.get('/form', (req, res) => {
     const username = req.cookies?.username;
