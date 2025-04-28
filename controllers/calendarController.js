@@ -3,7 +3,8 @@ const Pigeon = require('../model/Pigeon'); // Assuming you have a Pigeon model d
 
 const showCalendar = async (req, res) => {
     try { 
-        const username = req.cookies?.username || 'Guest'; // Handle missing user info
+        // const username = req.cookies?.username || 'Guest'; // Handle missing user info
+        const { username } = req.user; 
         const month = parseInt(req.query.month) || new Date().getMonth() + 1; // Default to current month if not specified 
         const year = parseInt(req.query.year) || new Date().getFullYear(); // Default to current year if not specified 
         const timezoneOffset = 8 * 60 * 60 * 1000;

@@ -11,17 +11,17 @@ const handleLogin = async (req, res) => {
     // evaluate password 
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
-        const roles = Object.values(foundUser.roles).filter(Boolean);
+        // const roles = Object.values(foundUser.roles).filter(Boolean);
         // create JWTs
         const accessToken = jwt.sign(
             {
                 "UserInfo": {
                     "username": foundUser.username,
-                    "roles": roles
+                    "roles": foundUser.roles
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '600s' }
+            { expiresIn: '300s' }
         );
         const refreshToken = jwt.sign(
             { "username": foundUser.username },
@@ -31,16 +31,16 @@ const handleLogin = async (req, res) => {
         // Saving refreshToken with current user
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
-        console.log(result);
-        console.log(roles);
+        console.log('This is the result:', result);
+        console.log('This is the roleData:', foundUser.roles);
 
         // Creates Secure Cookie with refresh token
-        res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 24 * 60 * 60 * 1000 }); // remove 'secure: true' for thunderClient endpoint testing
+        res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 24 * 60 * 60 * 1000 }); // remove 'secure: true' for thunderClient endpoint testing
         // res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 1000 });
-        res.cookie('username', username, { httpOnly: false, secure: true, sameSite: 'lax', maxAge: 30 * 60 * 1000 });
+        res.cookie('username', username, { httpOnly: false, secure: true, sameSite: 'Strict', maxAge: 30 * 60 * 1000 });
         // Send authorization roles and access token to user
-        // res.json({ roles, accessToken, refreshToken });
-        res.redirect('/calendar');
+        // res.json({ username, roles, accessToken, refreshToken });
+        res.redirect(`/calendar?accessToken=${ accessToken }&username=${ username }`);
         // res.redirect('/register');
 
     } else {

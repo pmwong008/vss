@@ -57,12 +57,13 @@
 
 					<h2>VSS Calendar for
 						<%= month %>/<%= year %></h2>
-					<p>Welcome,
+					<p>Logged in as
 						<%= username %>!
 					</p>
-					<a href="/pigeons/form">Go to fill in a Form</a><br><br>
-					<a href="/pigeons/getUserPigeons?username=<%= username %>">Go to my sessions</a><br><br>
-
+					<a href="/logout">Log out</a><br>
+					<a href="/pigeons/form">Sign-up Sheet</a><br>
+					<a href="/pigeons/getUserPigeons?username=<%= username %>">My Sessions</a><br><br>
+					
 					<!-- Calendar UI Goes Here -->
 
 					<form action="/calendar" method="get">

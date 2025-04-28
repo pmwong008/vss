@@ -1,21 +1,33 @@
 const jwt = require('jsonwebtoken');
 
 const verifyJWT = (req, res, next) => {
-    
-    const authHeader = req.headers.authorization || req.headers.Authorization;
-    if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
-    const token = authHeader.split(' ')[1];
-    if (!token) return res.sendStatus(401);
-    
-    console.log(token)
+    // Extract token from Authorization header or cookie
+    let token;
+
+    if (req.headers.authorization) {
+        token = req.headers.authorization.split(' ')[1]; // From header (e.g., "Bearer <token>")
+    } else if (req.cookies?.jwt) {
+        token = req.cookies.jwt; // From cookie
+    }
+
+    // If no token is found
+    if (!token) {
+        console.log('No token found in Authorization header or cookies.');
+        return res.sendStatus(401); // Unauthorized
+    }
+    console.log('Token retrieved:', token)
     
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if (err) return res.sendStatus(403); //invalid token
-            req.username = decoded.UserInfo.username;
-            req.roles = decoded.UserInfo.roles;
+            // decoded.UserInfo.roles = Object.values(decoded.UserInfo.roles).filter(Boolean);
+            req.user = decoded.UserInfo;
+            console.log("Decoded User Info:", req.user); // Debugging            // Convert roles to an array for validation
+
+            // req.user.roles = decoded.UserInfo.roles;
+            // req.roles = decoded.UserInfo.roles;
             next();
         }
     );

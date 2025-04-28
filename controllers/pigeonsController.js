@@ -17,18 +17,26 @@ const getUserPigeons = async (req, res) => {
     try {
 		console.log("Get User Pigeons route hit!"); 
 		console.log("Query Parameters:", req.query); // Debug query parameters
-        const username = req.query?.username;// Check for valid username
-		// const { username } = req.cookies; 
+        // const username = req.query?.username;// Check for valid username
+		const { username } = req.cookies; 
 		// const sortOrder = req.query?.order === "desc" ? -1 : 1; // Default to ascending order
 		if (!username || typeof username !== 'string') {
             return res.status(400).json({ message: "Invalid username provided." });
         }
 		console.log("Username from query:", username); // Debug username
-		const pigeons = await Pigeon.find({ vName: username }).exec();
+		
+		const today = new Date();
+		today.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+		
+		const pigeons = await Pigeon.find({ 
+			vName: username,
+			rDate: {$gte: today },
+		 }).sort({ rDate: 1 }).exec();
 		// const pigeons = await Pigeon.find({ vName: username }).sort({ rDate: sortOrder }).exec();
 
 		if (!pigeons || pigeons.length === 0) {
-			return res.status(204).json({ 'message': 'No pigeons found.' });
+			// return res.status(204).json({ 'message': 'No pigeons found.' });
+			return res.render('pigeonsByUsername', { vName: username, pigeons: [], message: "Please sign-up for new sessions." });
 		}
 
 		//res.json(pigeons);
@@ -102,12 +110,22 @@ const createPigeon = async (req, res) => {
 const deletePigeon = async (req, res) => {
 	try {
 	  const { id } = req.params; // Get session ID from the URL
-	  // const id = "68050e3c877ccd8d6a04df75"; // Hardcoded ID for testing
 	  console.log("Delete Pigeon route hit! ID received:", id); // Debug ID
-	 // Validate the format of the ID
+	  const session = await Pigeon.findById(id);
+	  if (!session) {
+		return res.status(404).json({ message: "Session not found." });
+	  }
+	  // Validate the format of the ID
 	 if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res.status(400).json({ message: "Invalid ID format." });
 	} 
+	const now = new Date();
+    const sessionDate = new Date(session.rDate);
+    const hoursDifference = (sessionDate - now) / (1000 * 60 * 60);
+
+    if (hoursDifference < 48) {
+      return res.status(400).json({ message: "Cannot delete this session as it is less than 48 hours away." });
+    }
 	 
 	  const deletedSession = await Pigeon.findByIdAndDelete(id); // Use Mongoose to delete by ID
   

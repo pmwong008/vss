@@ -34,14 +34,21 @@
           autocomplete="username"
           required
         ><br>
-        <label for="password">Password</label>
+        <label for="password">Assign Password</label>
         <input
           id="password"
           type="password"
           name="pwd"
           autocomplete="current-password"
           required
-        ><br><br>
+        ><br>
+        <label for="roles">Assign Role:</label>
+        <select id="roles" name="roles">
+            <option value="User">User</option>
+            <option value="Editor">Editor</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <br>
       
         <button type="submit" class="button-primary">Register</button>
       </form>
