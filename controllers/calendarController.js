@@ -73,12 +73,12 @@ const showCalendar = async (req, res) => {
         res.status(500).send("Error while generating calendar view: " + error.message); 
       }  
 }
-const showAdminCalendar = async (req, res) => {
+const adminCalendar = async (req, res) => {
     try { 
         // const username = req.cookies?.username || 'Guest'; // Handle missing user info
         const { username } = req.user; 
         const start = parseInt(req.query.start) || new Date(); // Default to current day if not specified 
-        const end = parseInt(req.query.end) || new Date() + 7; // Default to 7 days forward if not specified 
+        const end = parseInt(req.query.end) || new Date(); // Default to ? days forward if not specified 
         
         // Fetch pigeons from the collection with the specified date range
         const aggregates = await Pigeon.aggregate([
@@ -96,11 +96,11 @@ const showAdminCalendar = async (req, res) => {
     
         console.log('Aggregated Data from DB:', aggregates);
 
-        res.render('adminCalendar', aggregates); 
+        res.render('adminCalendar', { username, aggregates, start, end }); 
       } catch (error) { 
         console.error("Error while generating calendar view:", error); 
         res.status(500).send("Error while generating calendar view: " + error.message); 
       }  
 }
 
-module.exports = { showCalendar, showAdminCalendar };
+module.exports = { showCalendar, adminCalendar };

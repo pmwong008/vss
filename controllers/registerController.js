@@ -31,7 +31,7 @@ const handleNewUser = async (req, res) => {
         });
 
         console.log('New user registered:', result);
-        res.render('confirmRegistration', { username: newUser.username });
+        res.render('confirmRegistration', { username: result.username });
         // res.status(201).json({ 'success': `New user ${user} created!` });
     } catch (err) {
         console.error('Error registering new user:', err);
