@@ -25,7 +25,8 @@ const handleLogout = async (req, res) => {
     console.log(result);
 
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-    res.redirect('/');
+    // res.redirect('/');
+    res.render('bye');
 }
 
 module.exports = { handleLogout }
