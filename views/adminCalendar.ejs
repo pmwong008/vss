@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-
 		<!-- Basic Page Needs
 		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<meta charset="utf-8">
-		<title>Welcome!</title>
+		<title>VSS Calendar</title>
 		<meta name="description" content="">
 		<meta
 		name="author" content="">
@@ -22,34 +21,58 @@
 
 		<!-- CSS
 		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-		<link rel="stylesheet" href="stylesheets/normalize.css">
+		<link rel="stylesheet" href="../stylesheets/normalize.css">
 		<link
-		rel="stylesheet" href="stylesheets/skeleton.css">
+		rel="stylesheet" href="../stylesheets/skeleton.css">
 
 		<!-- Favicon
 		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-			<link rel="icon" type="image/png" href="images/favicon.png">
+		<link rel="icon" type="image/png" href="../images/favicon.png">
 
+		<style>
+			.calendar {
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				gap: 10px;
+			}
+			.day-card {
+				padding: 10px;
+				border: 1px solid #ccc;
+				text-align: center;
+			}
+			.day-header {
+				font-weight: bold;
+				text-align: center;
+			}
+			.empty-cell {
+				visibility: hidden;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="container">
 			<div class="'row">
 				<div class="one-half column" style="margin-top: 25%">
+
+
+					<h2>VSS Calendar</h2>
+					<p>Logged in as
+						<%= username %>!
+					</p>
+					<a href="/logout">Log out</a><br>
+					<a href="/pigeons/form">Sign-up Sheet</a><br>
+					<a href="/pigeons/getUserPigeons?username=<%= username %>">My Sessions</a><br><br>
 					
-					
-					<h1><%= title %></h1>
+					<!-- Calendar UI Goes Here -->
 
+					<form action="/adminDashboard/calendar" method="get">
+						
+					</form>
+					<div class="calendar">
+                        
+                    </div>
+						
 
-					<h3>This is a private group.</h3><br>
-					<h3><a href="/auth/login">Login</a></h3>
-					<br>
-
-					<h3>OR</h3><br>
-
-					<h3>
-						<a href="./requestToJoin.html">request to join.</a>
-					</h3>
-					
 				</div>
 			</div>
 		</div>

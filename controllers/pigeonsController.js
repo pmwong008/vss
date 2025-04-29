@@ -36,7 +36,7 @@ const getUserPigeons = async (req, res) => {
 
 		if (!pigeons || pigeons.length === 0) {
 			// return res.status(204).json({ 'message': 'No pigeons found.' });
-			return res.render('pigeonsByUsername', { vName: username, pigeons: [], message: "Please sign-up for new sessions." });
+			return res.render('pigeonsByUsername', { vName: username, pigeons: [], message: "You currently have no scheduled sessions." });
 		}
 
 		//res.json(pigeons);

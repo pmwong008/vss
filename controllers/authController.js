@@ -11,7 +11,9 @@ const handleLogin = async (req, res) => {
     // evaluate password 
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
-        // const roles = Object.values(foundUser.roles).filter(Boolean);
+        const roles = Object.values(foundUser.roles).filter(Boolean);
+        // const roles = foundUser.roles;
+        console.log('This is the roles:', roles);
         // create JWTs
         const accessToken = jwt.sign(
             {
@@ -38,10 +40,18 @@ const handleLogin = async (req, res) => {
         res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 24 * 60 * 60 * 1000 }); // remove 'secure: true' for thunderClient endpoint testing
         // res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 1000 });
         res.cookie('username', username, { httpOnly: false, secure: true, sameSite: 'Strict', maxAge: 30 * 60 * 1000 });
-        // Send authorization roles and access token to user
-        // res.json({ username, roles, accessToken, refreshToken });
-        res.redirect(`/calendar?accessToken=${ accessToken }&username=${ username }`);
-        // res.redirect('/register');
+        // Add a logic to check if the user is an admin, if yes, redirect to the adminDashboard
+        if (roles.includes(5150)) {
+            res.redirect(`/adminDashboard?accessToken=${ accessToken }&username=${ username }`);
+        }
+        // Add a logic to check if the user is an editor, if yes, redirect to the editorDashboard
+        else if (roles.includes(1984)) {
+            res.redirect(`/editorDashboard?accessToken=${ accessToken }&username=${ username }`);
+        }
+        // If the user is neither an admin nor an editor, redirect to the calendar
+        else {
+            res.redirect(`/calendar?accessToken=${ accessToken }&username=${ username }`);
+        }
 
     } else {
         res.sendStatus(401);
