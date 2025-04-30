@@ -5,7 +5,12 @@ const getAllUsers = async (req, res) => {
     if (!users || users.length === 0) {
         return res.render('noUser', { message: 'No user found' }); // Render a separate view if no users exist    res.json(users);
     }
-    res.render('allUsers', { users, title: 'All Users' });
+    // Filter out only assigned roles before passing data to the view
+    const filteredUsers = users.map(user => ({
+        ...user._doc,
+        roles: Object.keys(user.roles).filter(role => user.roles[role] !== undefined) // Extract role names
+    }));
+    res.render('allUsers', { users: filteredUsers, title: 'All Users' });
 }
 
 /* const deleteUser = async (req, res) => {
@@ -30,11 +35,19 @@ const getAllUsers = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const { id } = req.body; // Get ID from request body
-        
-        // Fetch the user before deleting to retain the username
+        const loggedInUsername = req.user.username; // Retrieve logged-in user's username
+
+        if (!id) return res.status(400).json({ message: 'User ID required' });
+
+        // Fetch user details before deletion
         const userToDelete = await User.findById(id);
         if (!userToDelete) {
             return res.status(404).json({ message: `User ID ${id} not found` });
+        }
+
+        // Prevent admin from deleting himself based on username
+        if (userToDelete.username === loggedInUsername) {
+            return res.status(403).json({ message: 'You cannot delete yourself!' });
         }
 
         const deletedUsername = userToDelete.username; // Store username before deletion
@@ -64,8 +77,72 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
+const updateUserRole = async (req, res) => {
+    try {
+        const { id, role } = req.body; // Get user ID and new role from request
+        console.log('Update User Role route hit! ID received:', id, 'Role:', role); // Debug ID and role
+
+        if (!id || !role) return res.status(400).json({ message: 'User ID and role are required.' });
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: `User ID ${id} not found.` });
+        }
+
+        console.log('User found:', user); // Debug user
+
+        // Define role mapping (if needed)
+        const roleMapping = {
+            User: 2001,
+            Editor: 1984,
+            Admin: 5150
+        };
+
+        if (!roleMapping[role]) {
+            return res.status(400).json({ message: 'Invalid role provided.' });
+        }
+
+        // Set the specific role inside roles object
+        user.roles = { [role]: roleMapping[role] }; // Updating only the selected role
+
+        await user.save(); // Save changes to the database
+
+        // Fetch updated user list
+        // const users = await User.find();
+        res.render('confirmUpdateUserRole', { username: user.username, roles: role});
+    } catch (error) {
+        console.error('Error updating user role:', error);
+        res.status(500).json({ message: 'Server error occurred.' });
+    }
+};
+
+const updateUserRemarks = async (req, res) => {
+    try {
+        const { id, remarks } = req.body; // Get user ID and remarks from request
+
+        if (!id) return res.status(400).json({ message: 'User ID is required.' });
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: `User ID ${id} not found.` });
+        }
+
+        user.remarks = remarks; // Update remarks field
+        await user.save(); // Save changes
+
+        // Fetch updated user list
+        // const users = await User.find();
+        res.render('confirmUpdateRemarks', { username: user.username, remarks: user.remarks});
+    } catch (error) {
+        console.error('Error updating user remarks:', error);
+        res.status(500).json({ message: 'Server error occurred.' });
+    }
+};
+
 module.exports = {
     getAllUsers,
     deleteUser,
-    getUser
+    getUser,
+    updateUserRole,
+    updateUserRemarks
 }

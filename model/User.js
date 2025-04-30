@@ -18,6 +18,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    remarks: { type: String, default: "" },
     refreshToken: String
 });
 
