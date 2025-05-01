@@ -119,13 +119,15 @@ const deletePigeon = async (req, res) => {
 	 if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res.status(400).json({ message: "Invalid ID format." });
 	} 
-	const now = new Date();
+
+	// Check if the session is less than 72 hours away, and as of 20250501 script is running from frontend
+	/* const now = new Date();
     const sessionDate = new Date(session.rDate);
     const hoursDifference = (sessionDate - now) / (1000 * 60 * 60);
 
     if (hoursDifference < 72) {
       return res.status(400).json({ message: "Cannot delete a session that is less than 72 hours away." });
-    }
+    } */
 	 
 	  const deletedSession = await Pigeon.findByIdAndDelete(id); // Use Mongoose to delete by ID
   
