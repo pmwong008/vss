@@ -33,14 +33,16 @@
 	</head>
 	<body>
 		<div class="container">
-			<!-- div class="'row" -->
+            
+			<div class="'row"></div>
 				<div class="one-half column" style="margin-top: 25%">
-										
+                    <a href="/calendar">Go to User's Calendar</a><br><br>			
 					<h1><%= title %></h1>
+                    
                     
                     <button onclick = "window.location.href='/register'">Add New User</button>
                     <button onclick = "window.location.href='/users'">Manage Users</button>
-                    
+                    <hr>
                     <form id="dateRangeForm">
                         <label for="startDate">Start Date:</label>
                         <input type="date" id="startDate" required>
@@ -51,10 +53,10 @@
                         <button type="submit">List</button>
                     </form>
                     
-                    <hr>
+                    
                     
                     <!-- Table Showing Upcoming Pigeons (Default View) -->
-                    <h3>Upcoming</h3>
+                    <h4>Upcoming</h4>
                     <table>
                         <thead>
                             <tr>
@@ -86,7 +88,7 @@
                     </table>
 					
 
-				<!-- /div -->
+				</div>
 			</div>
 		</div>
         <script>
