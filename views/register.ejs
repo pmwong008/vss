@@ -18,6 +18,10 @@
     <div class="row">
         
         <div class="one-half column" style="margin-top: 25%">
+            
+            <a href="/logout">Log out</a><br>
+            <a href="/adminDashboard">Back to adminDashboard</a><br>
+            <hr>
             <h5><%= title %></h5>
     <!-- form action="/auth/login" method="POST">
       <input type="text" name="username" placeholder="Username" required>
@@ -26,7 +30,7 @@
     </form -->
 
     <form id="register" class="textForm flexCenter" action="/register" method="post">
-        <label for="username">Username</label>
+        <label for="username">Assign Username</label>
         <input
           id="username"
           type="text"
@@ -52,9 +56,72 @@
       
         <button type="submit" class="button-primary">Register</button>
       </form>
-
-
+      <hr>
+      <h5>New Request to join</h5>
+ 
+      <table id="newBees" class="u-full-width">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody id="newBeesTableBody">
+          <% if (bees.length === 0) { %>
+            <tr>
+              <td colspan="2">No new requests</td>
+            </tr>
+          <% } else { %>
+            <% bees.forEach(bee => { %>
+              <tr>
+                <td><%= bee.name %></td>
+                <td><%= bee.phone %></td>
+                <td>
+                  <button type="button" class="delete-button" data-id="<%= bee._id %>" >Remove</button>
+                </td>
+              </tr>
+            <% }); %>
+          <% } %>
+        </tbody>
+      </table>
+    <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
 
   </div></div></div>
+
+  
 </body>
 </html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM fully loaded and parsed");
+    const deleteButtons = document.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach(button => {
+      button.addEventListener("click", async () => {
+        const newBeeId = button.getAttribute("data-id"); 
+        
+        const userConfirmed = window.confirm("Are you sure you want to remove this bee? This action cannot be undone.");
+
+        if (!userConfirmed) return; // Exit if user cancels
+
+        try {
+          const response = await fetch(`/users/removeNewBee/${newBeeId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+          });
+
+          if (response.ok) {
+            button.closest("tr").remove(); // Remove the table row on successful deletion
+            alert("Request has been handled.");
+          } else {
+            alert("Failed to clear newBee. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error while deleting newbee:", error);
+          alert("Something went wrong. Please try again later.");
+        }
+      });
+    });
+  });
+</script>

@@ -66,6 +66,33 @@ const deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Server error occurred' });
     }
 };
+
+const removeNewBee = async (req, res) => {
+    try {
+        const { id } = req.params; // Get ID from request parameters
+        if (!id) return res.status(400).json({ message: 'NewBee ID required' });
+
+        // Fetch newbee details before deletion
+        const newbeeToDelete = await NewBee.findById(id);
+        if (!newbeeToDelete) {
+            return res.status(404).json({ message: `NewBee ID ${id} not found` });
+        }
+
+        const deletedNewBee = newbeeToDelete.name; // Store username before deletion
+        
+        const result = await NewBee.findByIdAndDelete(id);
+        if (!result) {
+            return res.status(404).json({ message: `NewBee ID ${id} not found` });
+        }
+
+        // Fetch updated newbee list after deletion
+        // res.render('confirmDeleteNewBee', { deletedNewBee, message: `NewBee '${deletedNewBee}' was deleted successfully` });
+        res.json({ message: `NewBee '${deletedNewBee}' was deleted successfully` });
+    } catch {
+        console.error('Error deleting newbee:', error);
+        res.status(500).json({ message: 'Server error occurred' });
+    }
+}
     
 
 const getUser = async (req, res) => {
@@ -142,6 +169,7 @@ const updateUserRemarks = async (req, res) => {
 module.exports = {
     getAllUsers,
     deleteUser,
+    removeNewBee,
     getUser,
     updateUserRole,
     updateUserRemarks
