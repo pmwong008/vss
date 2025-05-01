@@ -1,4 +1,4 @@
-async function generateDayCards(month, year) { 
+function generateDayCards(month, year) { 
 	
 	const dayCards = []; 
 
@@ -17,7 +17,7 @@ async function generateDayCards(month, year) {
 			}
 		); 
 	}
-	console.log('Generated blank dayCards for month:' + month, dayCards); // Debug log
+	// console.log('Generated blank dayCards for month:' + month, dayCards); // Debug log
 	return { dayCards,startDay };
   }
 

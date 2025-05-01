@@ -36,12 +36,13 @@
             
 			<div class="'row"></div>
 				<div class="one-half column" style="margin-top: 25%">
-                    <a href="/calendar">Go to User's Calendar</a><br><br>			
+                    <a href="/calendar">Go to User's Calendar</a><br>			
+                    <a href="/logout">Log out</a><br><br>			
 					<h1><%= title %></h1>
                     
                     
                     <button onclick = "window.location.href='/register'">Add New User</button>
-                    <button onclick = "window.location.href='/users'">Manage Users</button>
+                    <button onclick = "window.location.href='/users'">Existing Users</button>
                     <hr>
                     <form id="dateRangeForm">
                         <label for="startDate">Start Date:</label>
@@ -125,7 +126,7 @@
                 pigeons.forEach(pigeon => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
-                        <td>${new Date(pigeon.rDate).toDateString()}</td>
+                        <td>${new Date(pigeon.rDate).toDateString().slice(4)}</td>
                         
                         <td>${pigeon.wkDay}</td>
                         <td>${pigeon.vName}</td>

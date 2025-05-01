@@ -36,8 +36,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="one-half column" style="margin-top: 25%">
-					<h3>You are currently logged in as:
-						<%= vName %>!</h3>
+					
+					<h3>Hi, <%= vName %>!</h3>
 					<br>
 					<p>
 						<a href="/logout">Log out</a><br>
@@ -60,7 +60,7 @@
 							<% if (pigeons.length === 0) { %>
                 <h3><%= message %></h3>
                 <% } else { %>
-                  <h3>Our record shows you have sign up for the sessions:</h3>
+                  <h4>Our record shows you have sign up for the sessions:</h4>
                   <% pigeons.forEach(function(session) { %>
                     <tr>
 

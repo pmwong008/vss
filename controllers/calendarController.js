@@ -46,7 +46,7 @@ const showCalendar = async (req, res) => {
             }
           ]).exec();
     
-        console.log('Aggregated Data from DB:', aggregates);
+        // console.log('Aggregated Data from DB:', aggregates); // Debug log
 
         // Update the corresponding day cards 
         dayCards.forEach(dayCard => { 
@@ -65,7 +65,7 @@ const showCalendar = async (req, res) => {
                 }
             });  
         });   
-        console.log('Updated Day Cards:', dayCards);
+        // console.log('Updated Day Cards:', dayCards); // Debug log
         
         res.render('calendar', { username, dayCards, month, year, startDay }); 
       } catch (error) { 
@@ -73,34 +73,7 @@ const showCalendar = async (req, res) => {
         res.status(500).send("Error while generating calendar view: " + error.message); 
       }  
 }
-const adminCalendar = async (req, res) => {
-    try { 
-        // const username = req.cookies?.username || 'Guest'; // Handle missing user info
-        const { username } = req.user; 
-        const start = parseInt(req.query.start) || new Date(); // Default to current day if not specified 
-        const end = parseInt(req.query.end) || new Date(); // Default to ? days forward if not specified 
-        
-        // Fetch pigeons from the collection with the specified date range
-        const aggregates = await Pigeon.aggregate([
-          { 
-            $match: { 
-            $expr: {
-              $and: [
-              { $gte: [start] },
-              { $lt: [end] }
-              ]
-            }
-            }
-          }
-        ]).exec();
-    
-        console.log('Aggregated Data from DB:', aggregates);
 
-        res.render('adminCalendar', { username, aggregates, start, end }); 
-      } catch (error) { 
-        console.error("Error while generating calendar view:", error); 
-        res.status(500).send("Error while generating calendar view: " + error.message); 
-      }  
-}
 
-module.exports = { showCalendar, adminCalendar };
+
+module.exports = { showCalendar };

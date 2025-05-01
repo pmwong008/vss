@@ -18,18 +18,17 @@
 				<div class="one-half column" style="margin-top: 25%">
 					<a href="/adminDashboard">Back to Admin Dashboard</a><br>
 					<h1>All Users</h1>
-					<table>
+					<table id="tbody">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th>Roles</th>
+								<th onclick="sortTable(0)">Name ⬍</th>
+								<th onclick="sortTable(1)">Roles ⬍</th>
 								<th>Del</th>
                                 <th>Update Role</th>
                                 <th>Remarks</th>
 							</tr>
 						</thead>
 						<tbody>
-
 							<% users.forEach(user => { %>
 								<tr>
 									<td><%= user.username %></td>
@@ -65,12 +64,32 @@
 							<% }); %>
 						</tbody>
 					</table>
-
 					<br><br>
-
-
 				</div>
 			</div>
 		</div>
+		<script>
+			function sortTable(colIndex) {
+				const table = document.querySelector("tbody");
+				const rows = Array.from(table.rows);
+		
+				// Determine sorting order
+				const order = table.getAttribute("data-order") === "asc" ? "desc" : "asc";
+				table.setAttribute("data-order", order);
+		
+				// Sort rows based on selected column
+				rows.sort((a, b) => {
+					let aText = a.cells[colIndex].textContent.trim();
+					let bText = b.cells[colIndex].textContent.trim();
+		
+					return order === "asc" ? aText.localeCompare(bText) : bText.localeCompare(aText);
+				});
+		
+				// Clear and re-append sorted rows
+				table.innerHTML = "";
+				rows.forEach(row => table.appendChild(row));
+			}
+		</script>
+		
 	</body>
 </html>

@@ -123,8 +123,8 @@ const deletePigeon = async (req, res) => {
     const sessionDate = new Date(session.rDate);
     const hoursDifference = (sessionDate - now) / (1000 * 60 * 60);
 
-    if (hoursDifference < 48) {
-      return res.status(400).json({ message: "Cannot delete this session as it is less than 48 hours away." });
+    if (hoursDifference < 72) {
+      return res.status(400).json({ message: "Cannot delete a session that is less than 72 hours away." });
     }
 	 
 	  const deletedSession = await Pigeon.findByIdAndDelete(id); // Use Mongoose to delete by ID
