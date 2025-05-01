@@ -1,4 +1,5 @@
 const User = require('../model/User');
+const newBee = require('../model/Newbee');
 
 const getAllUsers = async (req, res) => {
     const users = await User.find();
@@ -73,21 +74,21 @@ const removeNewBee = async (req, res) => {
         if (!id) return res.status(400).json({ message: 'NewBee ID required' });
 
         // Fetch newbee details before deletion
-        const newbeeToDelete = await NewBee.findById(id);
+        const newbeeToDelete = await newBee.findById(id);
         if (!newbeeToDelete) {
             return res.status(404).json({ message: `NewBee ID ${id} not found` });
         }
 
-        const deletedNewBee = newbeeToDelete.name; // Store username before deletion
+        const deletedNewbee = newbeeToDelete.name; // Store username before deletion
         
-        const result = await NewBee.findByIdAndDelete(id);
+        const result = await newBee.findByIdAndDelete(id);
         if (!result) {
             return res.status(404).json({ message: `NewBee ID ${id} not found` });
         }
 
         // Fetch updated newbee list after deletion
         // res.render('confirmDeleteNewBee', { deletedNewBee, message: `NewBee '${deletedNewBee}' was deleted successfully` });
-        res.json({ message: `NewBee '${deletedNewBee}' was deleted successfully` });
+        res.json({ message: `NewBee '${ deletedNewbee }' was deleted successfully` });
     } catch {
         console.error('Error deleting newbee:', error);
         res.status(500).json({ message: 'Server error occurred' });
