@@ -1,41 +1,43 @@
 const express = require('express');
 const router = express.Router();
 
-const pigeonsController = require('../controllers/pigeonsController');
 const ROLES_LIST = require('../config/roles_list');
 const verifyRoles = require('../middleware/verifyRoles');
-// const verifyJWT = require('../middleware/verifyJWT');
-// const { handleRefreshToken } = require('../controllers/refreshTokenController');
-const calendarController = require('../controllers/calendarController');
-const usersController = require('../controllers/usersController');
-const { handleNewUser } = require('../controllers/registerController');
-const { handleRefreshToken } = require('../controllers/refreshTokenController');
+const pigeonsController = require('../controllers/pigeonsController');
+const Pigeon = require('../model/Pigeon');
 
-// Route to load the adminCalendar, and handle the calendar functionality
-router.route('/calendar')
-    .get( (req, res) => {
-        const username = req.cookies?.username;
-        // const username = req.user.username;
 
-    res.render('adminCalendar', { username, title: 'Admin Calendar' });
-    })
-    .post( verifyRoles(ROLES_LIST.Admin), calendarController.adminCalendar);
 
 // Route to serve the admin dashboard
-router.get('/', verifyRoles(ROLES_LIST.Admin), (req, res) => {
-    res.render('adminDashboard', { title: 'Admin Dashboard' });
+router.get('/', verifyRoles(ROLES_LIST.Admin), async (req, res) => {
+    const today = new Date();
+    const nextWeek = new Date();
+    console.log("Admin Dashboard route hit!");
+    console.log("today's date is:", today); // Debug dates
+    console.log("today's type is:", typeof today); // Debug dates
+
+    try {
+
+        nextWeek.setDate(today.getDate() + 7);
+
+        // Fetch Pigeons within the next 7 days
+        const pigeons = await Pigeon.find({ 
+            rDate: { 
+                $gte: today, 
+                $lte: nextWeek 
+            } 
+        }).sort({ rDate: 1 }); // Sort by rDate in ascending order
+        
+        if (!pigeons || pigeons.length === 0) {
+            return res.render('adminDashboard', { title: 'Admin Dashboard', pigeons: [], message: "No scheduled sessions in the next 7 days." });
+        }
+        res.render('adminDashboard', { title: 'Admin Dashboard', pigeons }); // Pass Pigeons to the view
+    } catch (error) {
+        console.error("Error while trying to render admin dashboard:", error);
+        res.status(500).json({ message: "Error while trying to render admin dashboard" });
+    }
 });
 
-// Route to add or remove users
-router.route('/aboutUsers')
-    .get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
-    .post(verifyRoles(ROLES_LIST.Admin), handleNewUser);
-
-// Use ID parameters to get or remove a user
-router.route('/:id')
-    .get(verifyRoles(ROLES_LIST.Admin), usersController.getUser)
-    .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser);
-
-
+router.post('/getPigeonsByDateRange', verifyRoles(ROLES_LIST.Admin), pigeonsController.getPigeonsByDateRange);
 
 module.exports = router;

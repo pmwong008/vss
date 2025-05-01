@@ -38,11 +38,11 @@ const handleLogin = async (req, res) => {
         console.log('This is the roleData:', foundUser.roles);
 
         // Creates Secure Cookie with refresh token
-        res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 30 * 60 * 1000 }); // remove 'secure: true' for thunderClient endpoint testing
+        res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 60 * 60 * 1000 }); // remove 'secure: true' for thunderClient endpoint testing
         // Creates Secure Cookie with refresh token
         res.cookie('refresh', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 24 * 60 * 60 * 1000 }); // remove 'secure: true' for thunderClient endpoint testing
         // res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 1000 });
-        res.cookie('username', username, { httpOnly: false, secure: true, sameSite: 'Strict', maxAge: 30 * 60 * 1000 });
+        res.cookie('username', username, { httpOnly: false, secure: true, sameSite: 'Strict', maxAge: 60 * 60 * 1000 });
         // Add a logic to check if the user is an admin, if yes, redirect to the adminDashboard
         if (roles.includes(ROLES_LIST.Admin)) {
             res.redirect(`/adminDashboard?accessToken=${ accessToken }&username=${ username }`);

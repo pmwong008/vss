@@ -62,7 +62,7 @@ const createPigeon = async (req, res) => {
             return res.status(400).json({ message: "Missing required parameters: date and/or availability" });
             // return res.status(401).json({ message: "Unauthorized" });
         }
-		console.log("Received params:", { username, rDate, availability});
+		console.log("Received params:", { username, rDate, availability });
 		console.log("Type of rDate:", typeof rDate);
         // Convert rDate into a Date object
 		const dateObject = new Date(rDate);
@@ -153,6 +153,31 @@ const deletePigeon = async (req, res) => {
     }
 };
 
+const getPigeonsByDateRange = async (req, res) => {
+	try {
+        const { startDate, endDate } = req.body;
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ message: 'Please provide both start and end dates.' });
+        }
+
+		// Convert string dates to full Date objects
+        const start = new Date(`${startDate}`); // Ensures UTC format
+        const end = new Date(`${endDate}`); // Covers entire end date
+
+        // Query Pigeons within selected date range
+        const pigeons = await Pigeon.find({
+            //rDate: { $gte: new Date(startDate), $lte: new Date(endDate) }
+			rDate: { $gte: start, $lte: end }
+		}).sort({ rDate: 1 }); // Sort by rDate in ascending order
+
+        res.json({ pigeons }); // Return JSON response instead of rendering a new page    } catch (error) {
+    } catch (error) {
+		console.error('Error fetching Pigeons:', error);
+		res.status(500).json({ message: 'Server error occurred.' });
+	}
+};
+
 
 module.exports = {
     servePigeonForm,
@@ -160,6 +185,7 @@ module.exports = {
     getUserPigeons,
     createPigeon,
     deletePigeon,
-    getPigeon
+    getPigeon,
+	getPigeonsByDateRange
     
 }
