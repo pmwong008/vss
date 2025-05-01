@@ -39,4 +39,14 @@ const handleNewUser = async (req, res) => {
     }
 }
 
+/* const handleNewBee = async (req, res) => {
+    try {
+        const newbees = await User.find();
+        res.render('register', { newbees });
+    } catch {
+        console.error('Error loading newbee from DB:', err);
+    }
+} */
+    
+
 module.exports = { handleNewUser };
