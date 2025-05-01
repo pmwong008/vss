@@ -414,7 +414,7 @@ optgroup {
 
 /**
  * Remove most spacing between table cells.
- */
+ 
 
 table {
   border-collapse: collapse;
@@ -425,3 +425,5 @@ td,
 th {
   padding: 0;
 }
+
+*/
