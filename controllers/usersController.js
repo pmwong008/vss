@@ -9,12 +9,21 @@ const getAllUsers = async (req, res) => {
         return res.render('noUser', { message: 'No user found' }); // Render a separate view if no users exist    res.json(users);
     }
     // Filter out only assigned roles before passing data to the view
-    const filteredUsers = users.map(user => ({
-        ...user._doc,
-        roles: Object.keys(user.roles).filter(role => user.roles[role] !== undefined) // Extract role names
-    }));
+/*     const mappedUsers = users.map( e => ({
+        ...e._doc,
+        roles: Object.keys(e.roles).filter(role => e.roles[role] !== undefined) // Extract role names
+    })); */
 
-    res.render('allUsers', { users: filteredUsers, title: 'All Users' });
+    const mappedUsers = users.map( e => ({
+        ...e._doc,
+        roles: Object.keys(e.roles)
+        .filter(role => e.roles[role] !== undefined)
+        .filter((role, _, arr) => role !== "User" || (arr.includes("Admin") || arr.includes("Editor") ? false : true))
+
+    })); 
+
+    console.log('This is the mapped users:', mappedUsers); // Debugging
+    res.render('allUsers', { users: mappedUsers, title: 'All Users' });
 }
 
 
