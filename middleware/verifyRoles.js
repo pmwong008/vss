@@ -15,7 +15,19 @@ const verifyRoles = (...allowedRoles) => {
 
         // Check if the user has at least one of the allowed roles
         const hasRole = rolesArray.some(role => allowedRoles.includes(role));
-        if (!hasRole) return res.sendStatus(403); // Forbidden
+        if (!hasRole) return res.status(403).send(`
+            <html>
+              <head>
+                <style>
+                  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+                  .error-message { font-size: 28px; color: red; font-weight: bold; }
+                </style>
+              </head>
+              <body>
+                <p class="error-message">Forbidden Access: You do not have permission to view this page.</p>
+              </body>
+            </html>
+          `); // Forbidden
 
         next();
     };

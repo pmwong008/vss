@@ -13,7 +13,19 @@ const verifyJWT = (req, res, next) => {
     // If no token is found
     if (!token) {
         console.log('No token found in Authorization header or cookies.');
-        return res.sendStatus(401); // Unauthorized
+        return res.status(401).send(`
+            <html>
+              <head>
+                <style>
+                  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+                  .error-message { font-size: 28px; color: red; font-weight: bold; }
+                </style>
+              </head>
+              <body>
+                <p class="error-message">Authentication Failed!</p>
+              </body>
+            </html>
+          `); // Unauthorized
     }
     console.log('Token retrieved:', token)
     

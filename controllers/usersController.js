@@ -1,8 +1,10 @@
 const User = require('../model/User');
 const newBee = require('../model/Newbee');
+const ROLE_LIST = require('../config/roles_list');
 
 const getAllUsers = async (req, res) => {
     const users = await User.find();
+    console.log('This is the type of users fetched from DB:', typeof users); // Debugging
     if (!users || users.length === 0) {
         return res.render('noUser', { message: 'No user found' }); // Render a separate view if no users exist    res.json(users);
     }
@@ -11,27 +13,10 @@ const getAllUsers = async (req, res) => {
         ...user._doc,
         roles: Object.keys(user.roles).filter(role => user.roles[role] !== undefined) // Extract role names
     }));
+
     res.render('allUsers', { users: filteredUsers, title: 'All Users' });
 }
 
-/* const deleteUser = async (req, res) => {
-    if (!req?.body?.id) return res.status(400).json({ "message": 'User ID required' });
-    
-    try {
-        const user = await User.findOne({ _id: req.body.id }).exec();
-    if (!user) {
-        return res.status(204).json({ 'message': `User ID ${req.body.id} not found` });
-    }
-    const result = await User.deleteOne({ _id: req.body.id });
-    res.render('confirmDelete', { user, message: `User ${req.body.id} deleted successfully` });
-
-    } catch {
-        console.error('Error deleting user:', error);
-        res.status(500).json({ message: 'Server error occurred' });
-    }
-    
-    
-} */
 
 const deleteUser = async (req, res) => {
     try {

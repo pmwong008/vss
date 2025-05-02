@@ -8,7 +8,22 @@ const handleLogin = async (req, res) => {
     if (!username || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
 
     const foundUser = await User.findOne({ username: username }).exec();
-    if (!foundUser) return res.sendStatus(401); //Unauthorized 
+    //if (!foundUser) return res.sendStatus(401); //Unauthorized 
+    if (!foundUser) {
+        return res.status(401).send(`
+          <html>
+            <head>
+              <style>
+                body { font-family: Arial, sans-serif; text-align: center; margin-top: 200px; }
+                .error-message { font-size: 36px; color: red; font-weight: bold; }
+              </style>
+            </head>
+            <body>
+              <p class="error-message">Username Not Found</p>
+            </body>
+          </html>
+        `);
+      }
     // evaluate password 
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
@@ -57,7 +72,19 @@ const handleLogin = async (req, res) => {
         }
 
     } else {
-        res.sendStatus(401);
+        return res.status(401).send(`
+            <html>
+              <head>
+                <style>
+                  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+                  .error-message { font-size: 24px; color: red; font-weight: bold; }
+                </style>
+              </head>
+              <body>
+                <p class="error-message">Wrong Passcode</p>
+              </body>
+            </html>
+          `);
     }
 }
 
