@@ -76,7 +76,7 @@
   .one-third.column               { width: 30.6666666667%; }
   .two-thirds.column              { width: 65.3333333333%; }
 
-  .one-half.column                { width: 48%; }
+  .one-half.column                { width: 66%; }
 
   /* Offsets */
   .offset-by-one.column,
@@ -122,7 +122,7 @@ html {
   font-size: 62.5%; }
 body {
   font-size: 2em; /* currently ems cause chrome bug misinterpreting rems on body element */
-  line-height: 1.8;
+  line-height: 1.0;
   font-weight: 600;
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #222; }
@@ -237,6 +237,7 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
+input[type="date"],
 textarea,
 select {
   height: 45px;
@@ -254,6 +255,7 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
+input[type="date"],
 textarea {
   -webkit-appearance: none;
      -moz-appearance: none;
