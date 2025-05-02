@@ -22,7 +22,7 @@
             <a href="/logout">Log out</a><br><br>
             <a href="/adminDashboard">Back to adminDashboard</a><br>
             <hr>
-            <h4><%= title %></h4>
+            <h3><%= title %></h3>
     <!-- form action="/auth/login" method="POST">
       <input type="text" name="username" placeholder="Username" required>
       <input type="password" name="password" placeholder="Password" required>
@@ -57,7 +57,7 @@
         <button type="submit" class="button-primary">Register</button>
       </form>
       <hr>
-      <h4>New Request to join</h4>
+      <h3>New Request to join</h3>
  
       <table id="newBees" class="u-full-width">
         <thead>
@@ -77,13 +77,13 @@
                 <td><%= bee.name %></td>
                 <td><%= bee.phone %></td>
                 <td>
-                  <button type="button" class="delete-button" data-id="<%= bee._id %>" >Remove</button>
+                  <button type="button" class="delete-button" data-id="<%= bee._id %>" >Archive</button>
                 </td>
               </tr>
             <% }); %>
           <% } %>
         </tbody>
-      </table>
+      </table><br>
     <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
 
   </div></div></div>
@@ -106,8 +106,8 @@
         if (!userConfirmed) return; // Exit if user cancels
 
         try {
-          const response = await fetch(`/users/removeNewBee/${newBeeId}`, {
-            method: "DELETE",
+          const response = await fetch(`/users/archiveNewbee/${newBeeId}`, {
+            method: "POST",
             headers: { "Content-Type": "application/json" },
           });
 

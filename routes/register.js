@@ -14,10 +14,10 @@ router.post('/', registerController.handleNewUser); */
 
 
 router.get('/', verifyJWT, verifyRoles(ROLES_LIST.Admin), async (req, res) => {
-    const bees = await newBee.find();
+    const bees = await newBee.find({ Archived: false });
     if (!bees) return res.status(204).json({ 'message': 'No newbees found.' });
     console.log('Type of bees:', typeof bees);
-    res.render('register', { bees, title: 'Add New VSS User' });
+    res.render('register', { bees, title: 'Add New User' });
 });
 
 router.post('/', verifyJWT, verifyRoles(ROLES_LIST.Admin), registerController.handleNewUser);
