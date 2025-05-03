@@ -22,7 +22,8 @@ const verifyJWT = (req, res, next) => {
                 </style>
               </head>
               <body>
-                <p class="error-message">Authentication Failed!</p>
+                <h3 class="error-message">Authentication Failed!</h3>
+                <a href="/">Go to Home and Login</a>
               </body>
             </html>
           `); // Unauthorized

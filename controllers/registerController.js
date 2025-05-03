@@ -9,7 +9,21 @@ const handleNewUser = async (req, res) => {
     // check for duplicate usernames in the db
     const duplicate = await User.findOne({ username: user }).exec();
     if (duplicate) {
-        return res.status(400).send('Username is already taken.'); //Conflict 
+        // return res.status(400).send('Username is already taken.'); //Conflict 
+        return res.status(400).send(`
+            <html>
+              <head>
+                <style>
+                  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+                  .error-message { font-size: 28px; color: red; font-weight: bold; }
+                </style>
+              </head>
+              <body>
+                <h3 class="error-message">User Name already taken. Try a new Name.</h3>
+                
+              </body>
+            </html>
+          `); //Conflict 
     }
     try {
         //encrypt the password
@@ -38,15 +52,6 @@ const handleNewUser = async (req, res) => {
         res.status(500).send('An error occurred while registering the new user.');
     }
 }
-
-/* const handleNewBee = async (req, res) => {
-    try {
-        const newbees = await User.find();
-        res.render('register', { newbees });
-    } catch {
-        console.error('Error loading newbee from DB:', err);
-    }
-} */
-    
+   
 
 module.exports = { handleNewUser };

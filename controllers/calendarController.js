@@ -1,5 +1,5 @@
 const generateDayCards = require('../utils/generateDayCards');
-const Pigeon = require('../model/Pigeon'); // Assuming you have a Pigeon model defined
+const Pigeon = require('../model/Pigeon'); 
 
 const showCalendar = async (req, res) => {
     try { 
@@ -8,7 +8,7 @@ const showCalendar = async (req, res) => {
         const month = parseInt(req.query.month) || new Date().getMonth() + 1; // Default to current month if not specified 
         const year = parseInt(req.query.year) || new Date().getFullYear(); // Default to current year if not specified 
         const timezoneOffset = 8 * 60 * 60 * 1000;
-        const {dayCards, startDay} = await generateDayCards(month, year); 
+        const {dayCards, startDay} = generateDayCards(month, year); 
         
         if (!Array.isArray(dayCards)) { 
             throw new Error("dayCards is not an array"); 
@@ -73,7 +73,5 @@ const showCalendar = async (req, res) => {
         res.status(500).send("Error while generating calendar view: " + error.message); 
       }  
 }
-
-
 
 module.exports = { showCalendar };

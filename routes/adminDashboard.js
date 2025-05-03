@@ -6,8 +6,6 @@ const verifyRoles = require('../middleware/verifyRoles');
 const pigeonsController = require('../controllers/pigeonsController');
 const Pigeon = require('../model/Pigeon');
 
-
-
 // Route to serve the admin dashboard
 router.get('/', verifyRoles(ROLES_LIST.Admin), async (req, res) => {
     const today = new Date();
@@ -17,7 +15,6 @@ router.get('/', verifyRoles(ROLES_LIST.Admin), async (req, res) => {
     console.log("today's type is:", typeof today); // Debug dates
 
     try {
-
         nextWeek.setDate(today.getDate() + 7);
 
         // Fetch Pigeons within the next 7 days

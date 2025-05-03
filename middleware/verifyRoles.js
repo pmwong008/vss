@@ -24,7 +24,7 @@ const verifyRoles = (...allowedRoles) => {
                 </style>
               </head>
               <body>
-                <p class="error-message">Forbidden Access: You do not have permission to view this page.</p>
+                <h3 class="error-message">Forbidden Access: You do not have permission to view this page.</h3>
               </body>
             </html>
           `); // Forbidden

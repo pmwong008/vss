@@ -1,50 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="../stylesheets/skeleton.css">
-  <link rel="stylesheet" href="../stylesheets/normalize.css">
-  		<!-- Favicon
-		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        <link rel="icon" type="image/png" href="../images/favicon.png">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="../stylesheets/skeleton.css">
+		<link
+		rel="stylesheet" href="../stylesheets/normalize.css">
+		<!-- Favicon
+				    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="icon" type="image/png" href="../images/favicon.png">
 
-  <title>User Login</title>
-</head>
-<body>
-    <div class="container">
-        
-  
-    <div class="row">
-        
-        <div class="one-half column" style="margin-top: 25%">
-            <h3>百好 <%= title %></h3>
-
-    <!-- form id="login" class="textForm flexCenter" action="/auth/login" method="post" -->
-    <form id="login" action="/auth/login" method="post">
-        <label for="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          name="username"
-          autocomplete="username"
-          required
-        ><br>
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          autocomplete="current-password"
-          required
-        ><br><br>
-      
-        <button type="submit" class="button-primary">Sign In</button>
-      </form>
+		<title>User Login</title>
+	</head>
+	<body>
+		<div class="container">
 
 
+			<div class="row">
 
-  </div></div></div>
-</body>
+				<div class="one-half column" style="margin-top: 25%">
+					<h3>百好
+						<%= title %></h3>
+
+					<!-- form id="login" class="textForm flexCenter" action="/auth/login" method="post" -->
+					<form id="login" action="/auth/login" method="post">
+						<label for="username">Username</label>
+						<input id="username" type="text" name="username" autocomplete="username" required><br>
+						<label for="password">Password</label>
+						<input id="password" type="password" name="password" autocomplete="current-password" required><br><br>
+
+						<button type="submit" class="button-primary">Sign In</button>
+					</form>
+
+
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
