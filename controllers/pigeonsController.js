@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); // Import the Mongoose library
 const Pigeon = require('../model/Pigeon');
+const calculateWeekday = require('../utils/calculateWeekday'); // Import the utility function
 
 const servePigeonForm = async (req, res) => {
     const username = req.cookies?.username;
@@ -59,7 +60,7 @@ const createPigeon = async (req, res) => {
         const { rDate, availability } = req.body;
 		
         if (!req.body.rDate || !req.body.availability) {
-            return res.status(400).json({ message: "Missing required parameters: date and/or availability" });
+            return res.json({ message: "Missing required parameters: date and/or availability" });
             // return res.status(401).json({ message: "Unauthorized" });
         }
 		console.log("Received params:", { username, rDate, availability });
@@ -69,16 +70,12 @@ const createPigeon = async (req, res) => {
 		console.log("Converted dateObject:", dateObject);
         // const formattedDate = new Date(rDate).toISOString().split('T')[0]; // Converts to YYYY-MM-DD string
 
-		// Check if the date is valid
-		/* if (isNaN(formattedDate)) {
-			throw new Error('Invalid date format');
-		} */
 		// Get the weekday
-		const options = {
-			weekday: 'short'
-		};
-		const weekDay = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-		console.log("Calculated weekDay:", weekDay);
+		const wkDay = calculateWeekday(dateObject);
+		if (!wkDay) {
+			return res.status(400).json({ message: "Server not getting the weekday from dateObject." });
+		}
+
 		// Check for existing document
 		const existing = await Pigeon.findOne({rDate: dateObject, vName: username, availability: availability});
 
@@ -88,16 +85,14 @@ const createPigeon = async (req, res) => {
 		// Create a document to insert
 		const document = new Pigeon({
 			rDate: dateObject,
-			wkDay: weekDay,
+			wkDay: wkDay,
 			vName: username,
 			availability: availability
 		});
 		
 		// Save the document
 		const result = await document.save();
-		console.log("Document inserted:", result);
-		console.log("Route parameters:", req.params); // Debug route parameters
-        console.log("Request username:", username); // Debug username
+
 		res.redirect(303, `/pigeons/getUserPigeons?username=${username}`);
 
 	} catch (error) {

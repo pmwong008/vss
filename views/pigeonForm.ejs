@@ -1,63 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+	<head>
 
-    <!-- Basic Page Needs
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta charset="utf-8">
-    <title>Pigeon Form</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-  
-    <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <!-- FONT
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-  
-    <!-- CSS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="../stylesheets/normalize.css">
-    <link rel="stylesheet" href="../stylesheets/skeleton.css">
-  
-    <!-- Favicon
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="../images/favicon.png">
-  
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="one-half column" style="margin-top: 5%">
+		<!-- Basic Page Needs
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta charset="utf-8">
+		<title>Pigeon Form</title>
+		<meta name="description" content="">
+		<meta
+		name="author" content="">
 
-    <h1></h1><br>
+		<!-- Mobile Specific Metas
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1">
 
-    <p>Logged in as <strong><%= vName %></strong></p>
-    <a href="/logout">Log out</a><br>
-    <a href="/calendar">Back to Calendar</a><br>
-    <hr>
-    <h3>I am available on... </h3>
+		<!-- FONT
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link
+		href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
-    <form action="/pigeons" method="post" onsubmit="this.submitButton.disabled=true; return true;">
+		<!-- CSS
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="stylesheet" href="../stylesheets/normalize.css">
+		<link
+		rel="stylesheet" href="../stylesheets/skeleton.css">
 
-      <label for="rDate">Date:</label>
-      <input type="date" id="rDate" name="rDate" min = "2025-04-01" max="2025-07-31" step="1" /><br><br>
+		<!-- Favicon
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="icon" type="image/png" href="../images/favicon.png">
 
-      <label for="availability">Availability:</label>
-        <select name="availability" id="availability">
-          <option value="" disabled selected>-- Select AM/FM --</option>
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-            
-        </select><br><br>
-  
-      <button type="submit" name="submitButton">Submit</button>
-      <button type="reset">reset</button>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="one-half column" style="margin-top: 5%">
 
-    </form>
-    
-  </div></div></div>
-  </body>
+					<h1></h1><br>
+
+					<p>Logged in as
+						<strong><%= vName %></strong>
+					</p>
+					<a href="/logout">Log out</a><br>
+					<a href="/calendar">Back to Calendar</a><br>
+					<hr>
+					<h3>I am available on...
+					</h3>
+
+					<form action="/pigeons" method="post" onsubmit="this.submitButton.disabled=true; return true;">
+
+						<label for="rDate">Date:</label>
+						<input type="date" id="rDate" name="rDate" min="2025-04-01" max="2025-07-31" step="1"/><br><br>
+
+						<label for="availability">Availability:</label>
+						<select name="availability" id="availability">
+							<option value="" disabled selected>-- Select AM | FM --</option>
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+
+						</select><br><br>
+
+						<button type="submit" name="submitButton">Submit</button>
+						<button type="reset">Reset</button>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

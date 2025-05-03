@@ -51,7 +51,7 @@
 							<tr>
 								<th>Date</th>
 								<th>Weekday</th>
-								<th>Availability</th>
+								<th>AM | PM</th>
 								<!-- th>Created At</th -->
 								<th>Action</th>
 							</tr>
@@ -64,9 +64,9 @@
                   <% pigeons.forEach(function(session) { %>
                     <tr>
 
-                      <td class="session-date"><%= new Date(session.rDate).toDateString() %></td>
+                      <td class="session-date"><%= new Date(session.rDate).toDateString().slice(4) %></td>
 
-                      <td><%= new Date(session.rDate).toLocaleString('en-US', { weekday: 'long' }) %></td>
+                      <td><%= new Date(session.rDate).toLocaleString('en-US', { weekday: 'short' }) %></td>
                       <td><%= session.availability %></td>
                       <!--td>< back-end script --new Date(session.createdAt).toLocaleString()-- ></td -->
                       <td>
