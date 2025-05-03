@@ -60,15 +60,26 @@ const createPigeon = async (req, res) => {
         const { rDate, availability } = req.body;
 		
         if (!req.body.rDate || !req.body.availability) {
-            return res.json({ message: "Missing required parameters: date and/or availability" });
+            // return res.json({ message: "Missing required parameters: date and/or availability" });
             // return res.status(401).json({ message: "Unauthorized" });
+            return res.status(401).send(`
+				<html>
+				  <head>
+					<style>
+					  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+					  .error-message { font-size: 28px; color: red; font-weight: bold; }
+					</style>
+				  </head>
+				  <body>
+					<h3 class="error-message">Missing required parameters: date and/or availability.</h3>
+					<a href="/pigeons/form">Back to Sign Up Sheet</a>
+				  </body>
+				</html>
+			  `);
         }
-		console.log("Received params:", { username, rDate, availability });
-		console.log("Type of rDate:", typeof rDate);
+
         // Convert rDate into a Date object
 		const dateObject = new Date(rDate);
-		console.log("Converted dateObject:", dateObject);
-        // const formattedDate = new Date(rDate).toISOString().split('T')[0]; // Converts to YYYY-MM-DD string
 
 		// Get the weekday
 		const wkDay = calculateWeekday(dateObject);
