@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<!-- Basic Page Needs
-		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+										    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<meta charset="utf-8">
 		<title>VSS Calendar</title>
 		<meta name="description" content="">
@@ -10,23 +10,23 @@
 		name="author" content="">
 
 		<!-- Mobile Specific Metas
-		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+										    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<meta
 		name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- FONT
-		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+										    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<link
 		href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
 		<!-- CSS
-		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+										    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<link rel="stylesheet" href="../stylesheets/normalize.css">
 		<link
 		rel="stylesheet" href="../stylesheets/skeleton.css">
 
 		<!-- Favicon
-		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+										    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<link rel="icon" type="image/png" href="../images/favicon.png">
 
 		<style>
@@ -35,12 +35,12 @@
 				grid-template-columns: repeat(7, 1fr);
 				gap: 10px;
 				box-sizing: border-box;
-				border: 3px solid red;
+
 			}
 			.day-card {
 				height: 250px;
 				line-height: 1.0;
-				padding: 5px 2px 0px 2px;
+				padding: 5px 2px 0;
 				border: 3px solid #ccc;
 				text-align: center;
 			}
@@ -56,20 +56,19 @@
 	</head>
 	<body>
 		<div class="container">
+			<h2>百好 VSS Calendar for
+				<%= month %>/<%= year %>
+			</h2>
+			<p>Logged in as '<%= username %>' .||.  <a href="/logout">Log out</a></p>
+			<p></p>
+			<a href="/pigeons/form">Sign-up Sheet </a>  .||.
+					<a href="/pigeons/getUserPigeons?username=<%= username %>"> My Sessions</a>
+			</p>
+
 			<div class="row">
-			
-				<div class="eleven columns" style="margin-top: 5%">
 
+				<div>
 
-					<h2>百好 VSS Calendar for
-						<%= month %>/<%= year %></h2>
-					<p>Logged in as
-						'<%= username %>'
-					</p>
-					<a href="/logout">Log out</a><br>
-					<a href="/pigeons/form">Sign-up Sheet</a><br>
-					<a href="/pigeons/getUserPigeons?username=<%= username %>">My Sessions</a><br><br>
-					
 					<!-- Calendar UI Goes Here -->
 
 					<form action="/calendar" method="get">
@@ -79,36 +78,42 @@
 						<input type="number" id="month" name="month" value="<%= month %>" min="4" max="7" required>
 						<button type="submit" class="button-primary">View Month</button>
 					</form>
-					<div
-						class="calendar">
-						<!-- Day headers -->
-						<div class="day-header" style="color: rgba(252, 94, 215, 0.792);">S</div>
-						<div class="day-header">M</div>
-						<div class="day-header">T</div>
-						<div class="day-header">W</div>
-						<div class="day-header">T</div>
-						<div class="day-header">F</div>
-						<div class="day-header">S</div>
-						<!-- Render calendar days -->
-						<% for (let i = 0; i < startDay; i++) { %>
-							<div class="day-card empty-cell"></div>
-						<% } %>
-						<% for (let j = 0; j < dayCards.length; j++) { %>
-							<div class="day-card">
-								<p><%= dayCards[j].day %></p>
-								
-								<% if (dayCards[j].amCount > 0) { %>
-									<p> AM: <%= dayCards[j].amCount %> </p>
-								<% } %>
+				</div>
+			</div>
+			<div
+				class="calendar">
+				<!-- Day headers -->
+				<div class="day-header" style="color: rgba(252, 94, 215, 0.792);">S</div>
+				<div class="day-header">M</div>
+				<div class="day-header">T</div>
+				<div class="day-header">W</div>
+				<div class="day-header">T</div>
+				<div class="day-header">F</div>
+				<div class="day-header">S</div>
+				<!-- Render calendar days -->
+				<% for (let i = 0; i < startDay; i++) { %>
+					<div class="day-card empty-cell"></div>
+				<% } %>
+				<% for (let j = 0; j < dayCards.length; j++) { %>
+					<div class="day-card">
+						<p><%= dayCards[j].day %></p>
 
-								<% if (dayCards[j].pmCount > 0) { %>
-									<p>PM: <%= dayCards[j].pmCount %> </p>
-								<% } %>
-							</div>
+						<% if (dayCards[j].amCount > 0) { %>
+							<p>
+								AM:
+								<%= dayCards[j].amCount %>
+							</p>
+						<% } %>
+
+						<% if (dayCards[j].pmCount > 0) { %>
+							<p>PM:
+								<%= dayCards[j].pmCount %>
+							</p>
 						<% } %>
 					</div>
-<hr></div>
+				<% } %>
 			</div>
+			<hr>
 		</div>
 	</body>
 </html>
