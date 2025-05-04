@@ -54,6 +54,7 @@
 								<th>AM | PM</th>
 								<!-- th>Created At</th -->
 								<th>Action</th>
+								<th> | </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -72,6 +73,7 @@
                       <td>
                         <button type="button" class="delete-button" data-id="<%= session._id %>" data-date="<%= session.rDate.toISOString() %>">Delete</button>
                       </td>
+					  <td> . </td>
                     </tr>
                   <% }); %>
 							

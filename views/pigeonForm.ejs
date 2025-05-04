@@ -39,7 +39,7 @@
 					<h1></h1><br>
 
 					<p>Logged in as
-						<strong><%= vName %></strong>
+						<strong>'<%= vName %>'</strong>
 					</p>
 					<a href="/logout">Log out</a><br>
 					<a href="/calendar">Back to Calendar</a><br>
@@ -49,10 +49,10 @@
 
 					<form action="/pigeons" method="post" onsubmit="this.submitButton.disabled=true; return true;">
 
-						<label for="rDate">Date:</label>
+						<label for="rDate">Select Date:</label>
 						<input type="date" id="rDate" name="rDate" min="2025-04-01" max="2025-07-31" step="1"/><br><br>
 
-						<label for="availability">Availability:</label>
+						<label for="availability">Select AM/PM:</label>
 						<select name="availability" id="availability">
 							<option value="" disabled selected>-- Select AM | FM --</option>
 							<option value="AM">AM</option>
@@ -60,8 +60,8 @@
 
 						</select><br><br>
 
-						<button type="submit" name="submitButton">Submit</button>
-						<button type="reset">Reset</button>
+						<button type="submit" class="button-primary" name="submitButton">Submit</button>
+						<button type="reset" class="button-primary">Reset</button>
 
 					</form>
 
