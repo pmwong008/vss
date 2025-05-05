@@ -52,6 +52,7 @@ app.use('/auth', require('./routes/auth'));
 
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
+app.use('/calendar', require('./routes/api/calendar'));
 
 app.use(verifyJWT);
 app.use('/adminDashboard', require('./routes/adminDashboard'));
@@ -59,7 +60,7 @@ app.use('/register', require('./routes/register'));
 app.use('/employees', require('./routes/api/employees'));
 app.use('/users', require('./routes/api/users'));
 app.use('/pigeons', require('./routes/api/pigeons'));
-app.use('/calendar', require('./routes/api/calendar'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

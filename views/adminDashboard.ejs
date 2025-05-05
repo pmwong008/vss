@@ -29,7 +29,13 @@
 		<!-- Favicon
 		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 			<link rel="icon" type="image/png" href="../images/favicon.png">
+    <style>
+        .input-container {
+            display: flex;  /* Enables horizontal alignment */
+            gap: 10px;  /* Adds spacing between inputs */
+        }
 
+    </style>
 	</head>
 	<body>
 		<div class="container">
@@ -46,12 +52,14 @@
                     <button class="button-primary" onclick = "window.location.href='/users'">Existing Users</button>
                     <hr>
                     <form id="dateRangeForm">
-                        <label for="startDate">Start Date:</label>
+                    <div class="input-container">
+                        <label for="startDate">From:</label>
                         <input type="date" id="startDate" required>
                     
-                        <label for="endDate">End Date:</label>
+                        <label for="endDate">To:</label>
                         <input type="date" id="endDate" required>
-                    
+                    </div>
+
                         <button class="button-primary" type="submit">List</button>
                     </form>
                     

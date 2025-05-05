@@ -7,7 +7,7 @@ const { handleRefreshToken } = require('../../controllers/refreshTokenController
 const verifyJWT = require('../../middleware/verifyJWT');
 
 router.route('/')
-    .post(pigeonsController.createPigeon)
+    .post(verifyRoles(ROLES_LIST.User), pigeonsController.createPigeon)
 
     
 
@@ -16,14 +16,14 @@ router.route('/form')
     
     
 // router.get('/getUserPigeons', handleRefreshToken, pigeonsController.getUserPigeons);    
-router.get('/getUserPigeons', pigeonsController.getUserPigeons);    
+router.get('/getUserPigeons', verifyRoles(ROLES_LIST.User, ROLES_LIST.Admin), pigeonsController.getUserPigeons);    
 
 router.route('/:id')
-    .get(pigeonsController.getPigeon)
+    .get(verifyRoles(ROLES_LIST.User, ROLES_LIST.Admin), pigeonsController.getPigeon)
     
 router.route('/delete/:id')
     
-    .delete(pigeonsController.deletePigeon)
+    .delete(verifyRoles(ROLES_LIST.User), pigeonsController.deletePigeon)
 
 /* router.get('/form', (req, res) => {
     const username = req.cookies?.username;
@@ -31,7 +31,5 @@ router.route('/delete/:id')
 
 }).post('/form', pigeonsController.createPigeon);
 */
-
-
 
 module.exports = router;

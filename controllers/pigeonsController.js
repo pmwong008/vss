@@ -67,12 +67,12 @@ const createPigeon = async (req, res) => {
 				  <head>
 					<style>
 					  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-					  .error-message { font-size: 28px; color: red; font-weight: bold; }
+					  .error-message { font-size: 48px; color: red; font-weight: bold; }
 					</style>
 				  </head>
 				  <body>
 					<h3 class="error-message">Missing required parameters: date and/or availability.</h3>
-					<a href="/pigeons/form">Back to Sign Up Sheet</a>
+					<h3><a href="/pigeons/form">Back to Sign Up Sheet</a></h3>
 				  </body>
 				</html>
 			  `);
@@ -108,8 +108,22 @@ const createPigeon = async (req, res) => {
 
 	} catch (error) {
 		console.error("Error while trying to insert document into Pigeons:", error);
-		res.status(500).send("Error while trying to insert document into Pigeons: " + error.message);
+		// res.status(500).send("Error while trying to insert document into Pigeons: " + error.message);
 		// Send error message to the client
+		res.status(500).send(`
+			<html>
+			  <head>
+				<style>
+				  body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+				  .error-message { font-size: 48px; color: red; font-weight: bold; }
+				</style>
+			  </head>
+			  <body>
+				<h3 class="error-message">Error while trying to insert document into Pigeons: ${error.message}</h3>
+				<h3><a href="/pigeons/form">Back to Sign Up Sheet</a></h3>
+			  </body>
+			</html>
+		  `);
 	} 
 }
 

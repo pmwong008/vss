@@ -18,15 +18,15 @@ const verifyJWT = (req, res, next) => {
               <head>
                 <style>
                   body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-                  .error-message { font-size: 28px; color: red; font-weight: bold; }
+                  .error-message { font-size: 48px; color: red; font-weight: bold; }
                 </style>
               </head>
               <body>
                 <h3 class="error-message">Authentication Failed!</h3>
-                <a href="/">Go to Home and Login</a>
+                <h3><a href="/">Go to Home and Login</a></h3>
               </body>
             </html>
-          `); // Unauthorized
+          `); // Unauthorized */
     }
     console.log('Token retrieved:', token)
     

@@ -42,7 +42,21 @@ const deleteUser = async (req, res) => {
 
         // Prevent admin from deleting himself based on username
         if (userToDelete.username === loggedInUsername) {
-            return res.status(403).json({ message: 'You cannot delete yourself!' });
+            // return res.status(403).json({ message: 'You cannot delete yourself!' });
+            return res.status(403).send(`
+                <html>
+                  <head>
+                    <style>
+                      body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+                      .error-message { font-size: 48px; color: red; font-weight: bold; }
+                    </style>
+                  </head>
+                  <body>
+                    <h3 class="error-message">You cannot delete yourself!</h3>
+                    <h3><a href="/users">Back to User List</a></h3>
+                  </body>
+                </html>
+              `); 
         }
 
         const deletedUsername = userToDelete.username; // Store username before deletion
