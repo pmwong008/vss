@@ -19,7 +19,7 @@
         
         <div class="one-half column" style="margin-top: 25%">
           <p>
-            <a href="/logout"> Log out </a> .||.
+            <a href="/logout"> Log out </a> _|_
             <a href="/adminDashboard"> Back to Admin Dashboard </a>
           </p>
             <hr>
@@ -87,7 +87,6 @@
           <% } %>
         </tbody>
       </table><br>
-    <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
 
   </div></div></div>
 
@@ -104,7 +103,7 @@
       button.addEventListener("click", async () => {
         const newBeeId = button.getAttribute("data-id"); 
         
-        const userConfirmed = window.confirm("Are you sure you want to remove this bee? This action cannot be undone.");
+        const userConfirmed = window.confirm("Are you sure you want to archive this bee?");
 
         if (!userConfirmed) return; // Exit if user cancels
 

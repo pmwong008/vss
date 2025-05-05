@@ -10,7 +10,8 @@
 
 const verifyRoles = (...allowedRoles) => {
     return (req, res, next) => {
-        if (!req?.user?.roles) return res.sendStatus(403); // Forbidden
+        // if (!req?.user?.roles) return res.sendStatus(403); // Forbidden
+        if (!req?.user?.roles) return res.render('error', { message: 'Forbidden Access' }); // Forbidden
         const rolesArray = Array.isArray(req.user.roles) ? req.user.roles : Object.values(req.user.roles);
 
         // Check if the user has at least one of the allowed roles

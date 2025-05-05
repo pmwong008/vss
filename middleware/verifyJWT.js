@@ -34,7 +34,9 @@ const verifyJWT = (req, res, next) => {
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
-            if (err) return res.sendStatus(403); //invalid token
+            // if (err) return res.sendStatus(403); //invalid token
+            if (err) return res.render('error', { message: 'Invalid token' }); // Forbidden
+
             // decoded.UserInfo.roles = Object.values(decoded.UserInfo.roles).filter(Boolean);
             req.user = decoded.UserInfo;
             console.log("Decoded User Info:", req.user); // Debugging            // Convert roles to an array for validation
