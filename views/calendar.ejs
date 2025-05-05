@@ -33,15 +33,15 @@
 			.calendar {
 				display: grid;
 				grid-template-columns: repeat(7, 1fr);
-				gap: 10px;
+				gap: 6px;
 				box-sizing: border-box;
 
 			}
 			.day-card {
-				height: 250px;
+				height: 225px;
 				line-height: 1.0;
-				padding: 5px 2px 0;
-				border: 3px solid #ccc;
+				padding: 5px 2px;
+				border: 2px solid #ccc;
 				text-align: center;
 			}
 			.day-header {
@@ -59,9 +59,9 @@
 			<h2>百好 VSS Calendar for
 				<%= month %>/<%= year %>
 			</h2>
-			<p>Logged in as '<%= username %>' .||.  <a href="/logout">Log out</a></p>
-			<p></p>
-			<a href="/pigeons/form">Sign-up Sheet </a>  .||.
+			<p>Logged in as '<%= username %>' _|_  <a href="/logout"> Log out</a></p>
+			<p>
+			<a href="/pigeons/form">Sign-up Sheet  </a>  _|_
 					<a href="/pigeons/getUserPigeons?username=<%= username %>"> My Sessions</a>
 			</p>
 
@@ -71,19 +71,19 @@
 
 					<!-- Calendar UI Goes Here -->
 
-					<form action="/calendar" method="get">
+					<form action="/calendar" method="get" class="input-container">
 						<label for="year">Year:</label>
 						<input type="number" id="year" name="year" value="<%= year %>" min="2025" max="2026" required>
 						<label for="month">Month:</label>
 						<input type="number" id="month" name="month" value="<%= month %>" min="4" max="7" required>
-						<button type="submit" class="button-primary">View Month</button>
+						<button type="submit" class="button-primary">View</button>
 					</form>
 				</div>
 			</div>
 			<div
 				class="calendar">
 				<!-- Day headers -->
-				<div class="day-header" style="color: rgba(252, 94, 215, 0.792);">S</div>
+				<div class="day-header" style="color: #ff5733;">S</div>
 				<div class="day-header">M</div>
 				<div class="day-header">T</div>
 				<div class="day-header">W</div>
