@@ -1,5 +1,7 @@
 const generateDayCards = require('../utils/generateDayCards');
 const Pigeon = require('../model/Pigeon'); 
+const Bulletin = require('../model/Bulletin'); // Import the Bulletin model
+
 
 const showCalendar = async (req, res) => {
     try { 
@@ -9,11 +11,15 @@ const showCalendar = async (req, res) => {
         const year = parseInt(req.query.year) || new Date().getFullYear(); // Default to current year if not specified 
         const timezoneOffset = 8 * 60 * 60 * 1000;
         const {dayCards, startDay} = generateDayCards(month, year); 
-        
+        // const bulletin = await Bulletin.find({}).sort({ createdAt: -1 }).limit(1).exec(); // Fetch the latest bulletin
+        const bulletin = await Bulletin.findOne().sort({ createdAt: -1 }).exec();
+        if (!bulletin) { 
+            throw new Error("No bulletin found"); 
+          }
         if (!Array.isArray(dayCards)) { 
             throw new Error("dayCards is not an array"); 
           }
-        console.log('Day Cards before updating:', dayCards, startDay);
+        // console.log('Day Cards before updating:', dayCards, startDay);
     
         const startDate = new Date(dayCards[0].date);
         startDate.setTime(startDate.getTime() + timezoneOffset); // Adjust to GMT+8        const endDate = new Date(dayCards[dayCards.length - 1].date);
@@ -22,8 +28,8 @@ const showCalendar = async (req, res) => {
         endDate.setTime(endDate.getTime() + timezoneOffset); // Adjust to GMT+8
         endDate.setUTCHours(23, 59, 59, 999);
 
-        console.log('Start Date Adjusted for GMT+8:', startDate.toISOString());
-        console.log('End Date Adjusted for GMT+8:', endDate.toISOString());
+        // console.log('Start Date Adjusted for GMT+8:', startDate.toISOString());
+        // console.log('End Date Adjusted for GMT+8:', endDate.toISOString());
 
         
         // Fetch dates from the collection 
@@ -46,9 +52,7 @@ const showCalendar = async (req, res) => {
             }
           ]).exec();
     
-        // console.log('Aggregated Data from DB:', aggregates); // Debug log
-
-        // Update the corresponding day cards 
+         // Update the corresponding day cards 
         dayCards.forEach(dayCard => { 
             const formattedDate = dayCard.date.toISOString().split('T')[0]; 
         	aggregates.forEach(aggregate => {
@@ -67,7 +71,7 @@ const showCalendar = async (req, res) => {
         });   
         // console.log('Updated Day Cards:', dayCards); // Debug log
         
-        res.render('calendar', { username, dayCards, month, year, startDay }); 
+        res.render('calendar', { username, dayCards, month, year, startDay, bulletin }); 
       } catch (error) { 
         console.error("Error while generating calendar view:", error); 
         res.status(500).send("Error while generating calendar view: " + error.message); 

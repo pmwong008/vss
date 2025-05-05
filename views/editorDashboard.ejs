@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<!-- Basic Page Needs
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta charset="utf-8">
+		<title>VSS Admin Dashboard</title>
+		<meta name="description" content="">
+		<meta
+		name="author" content="">
+
+		<!-- Mobile Specific Metas
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- FONT
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link
+		href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+		<!-- CSS
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<link rel="stylesheet" href="../stylesheets/normalize.css">
+		<link
+		rel="stylesheet" href="../stylesheets/skeleton.css">
+
+		<!-- Favicon
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+			<link rel="icon" type="image/png" href="../images/favicon.png">
+
+	</head>
+	<body>
+		<div class="container">
+            
+			<div class="'row"></div>
+				<div style="margin-top: 5%">
+                    
+					<h1><%= title %></h1>
+                    <p>Logged in as '<%= username %>' _|_  <a href="/logout"> Log out</a></p>
+                    <p></p><a href="/calendar">Go to User's Calendar</a></p>	
+                    <h3></h3>
+                    <form id="bulletin" action="/editorDashboard" method="post">
+                        <label for="textField">Create New Bulletin</label>
+                        <textarea
+                            id="textField"
+                            type="text"
+                            name="textField"
+                            required
+                        ></textarea><br>
+                        <button type="submit">Post to User's Calendar</button>
+                    </form>
+                    <!-- Table Showing Most Previous Bulletins -->
+                    <h4>Previously Announced</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Content</th>
+                                <th>Date Created</th>
+                                <th>Details</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="bulletinsBody">
+                            
+                            
+                                <% previewedBulletins.forEach( bull => { %>
+                                    <tr>
+                                        <td><%= bull.textField %></td>
+                                        <td><%= new Date(bull.createdAt).toDateString().slice(4) %></td>
+                                        <td>
+                                            <button type="button" class="button-primary" data-id="<%= bull._id %>" > Get Details</button>
+                                        </td>
+                                        <td>.</td>
+                                    </tr>
+                                <% }); %>
+                            
+                            
+                        </tbody>
+                    </table>
+					
+
+				</div>
+			</div>
+		</div>
+        <script>
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const table = document.getElementById("bulletinsBody"); // Make sure your table has this ID
+                if (!table) {
+                    console.error("Bulletin not found! Script won't run.");
+                    return;
+                }
+                console.log("DOM fully loaded and parsed");
+                // Add event listeners to all buttons with the class "button-primary"
+                const buttons = document.querySelectorAll('.button-primary');
+                if (buttons.length === 0) {
+                    console.error("No buttons found with class 'button-primary'");
+                    return;
+                }
+
+                console.log("Buttons loaded:", buttons); // Debugging log
+                buttons.forEach( button => {
+                    button.addEventListener('click', async () => {
+                        const id = button.getAttribute('data-id');
+                        console.log("fetching bulletin for id):", id);
+
+                        try {
+                            const response = await fetch(`/editorDashboard/${id}`);
+                            
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        const data = await response.json(); // Extract JSON correctly
+                        console.log("Bulletin Data:", data); // Debugging log
+                        if (!data || !data.textField) {
+                            alert("No bulletin details found.");
+                            return;
+                        }
+
+                        
+                        const bulletinDetails = `
+                            <h2>Bulletin Details</h2>
+                            <p><strong>Content:</strong> ${data.textField}</p>
+                            <p><strong>Date Created:</strong> ${data.createdAt}</p>
+                        `;
+
+                        const newWindow = window.open('', 'Bulletin Details', 'width=600,height=400');
+                        
+                        if (newWindow) {
+                            newWindow.document.write(`
+                            <html>
+                                <head><title>Bulletin Details</title></head>
+                                <body>${bulletinDetails}</body>
+                            </html>
+                            `);
+                            newWindow.document.close(); // Ensure the document finishes loading
+                        } else {
+                            alert("Popup blocked! Allow pop-ups for this site.");
+                        }
+
+                        } catch (error) {
+                            console.error("Error fetching bulletin:", error);
+                            alert("Failed to load bulletin details.");
+                        }
+
+                    });
+                });
+            });
+            </script>
+	</body>
+</html>

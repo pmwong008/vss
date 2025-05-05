@@ -439,6 +439,11 @@ there.
   gap: 10px;  /* Adds spacing between inputs */
 }
 
+textarea {
+  width: 100%; /* Optional: Full width */
+  height: 200px; /* Adjust height as needed */
+  resize: vertical; /* Allow resizing only up/down */
+}
 
 .hidden {
   display: none;

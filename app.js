@@ -56,6 +56,7 @@ app.use('/calendar', require('./routes/api/calendar'));
 
 app.use(verifyJWT);
 app.use('/adminDashboard', require('./routes/adminDashboard'));
+app.use('/editorDashboard', require('./routes/editorDashboard'));
 app.use('/register', require('./routes/register'));
 app.use('/employees', require('./routes/api/employees'));
 app.use('/users', require('./routes/api/users'));
