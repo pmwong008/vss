@@ -9,8 +9,9 @@ const createBulletin = async (req, res) => {
     try {
         const newBulletin = new Bulletin({ textField });
         await newBulletin.save();
+        
         // res.status(201).json({ message: 'Bulletin created successfully.', bulletin: newBulletin });
-        res.redirect('/editorDashboard'); // Redirect to the editor dashboard after creating the bulletin
+        res.redirect(301, '/editorDashboard'); // Redirect to the editor dashboard after creating the bulletin
     } catch (error) {
         console.error('Error creating bulletin:', error);
         res.status(500).json({ message: 'Internal server error.' });

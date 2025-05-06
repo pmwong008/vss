@@ -448,11 +448,11 @@ textarea {
 .bulletin {
   width: 100%; /* Optional: Full width */
   height: 100px; /* Adjust height as needed */
-  overflow: scroll;
+  overflow: auto; /* Enable scrolling if content overflows */
   padding: 10px;
   background-color: rgb(235, 235, 235);
-  font-size: medium;
-  line-height: normal;
+  font-size: 1.8rem;
+  line-height: 1.5;
 }
 
 .hidden {

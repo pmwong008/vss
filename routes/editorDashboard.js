@@ -26,7 +26,7 @@ router.route('/')
                 textField: getPreview( b.textField, 7 ), // Generate preview
                 createdAt: b.createdAt // Include createdAt for sorting
             }));
- 
+            
             res.render('editorDashboard', { title: 'Editor Dashboard', username, previewedBulletins });
 
         } catch (error) {

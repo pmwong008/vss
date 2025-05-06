@@ -42,18 +42,19 @@
                     <p></p><a href="/calendar">Go to Calendar</a></p>	
                     <h3></h3>
                     <form id="bulletin" action="/editorDashboard" method="post">
-                        <label for="textField">Create New Bulletin</label>
-                        <textarea
+                        
+                        <textarea 
+                            placeholder="Start typing new bulletin..."
                             id="textField"
                             type="text"
                             name="textField"
                             required
                         ></textarea><br>
-                        <button class="button-primary" type="submit">>>>>> Post to Calendar </button>
+                        <button id="submit-bulletin" class="button-primary" type="submit">>>>>> Post to Calendar </button>
                     </form>
                     <!-- Table Showing Most Previous Bulletins -->
                     
-                    <table>
+                    <table id="bulletinsBody" class="u-full-width">
                         <thead>
                             <tr>
                                 <th>Old Posts</th>
@@ -62,7 +63,7 @@
 
                             </tr>
                         </thead>
-                        <tbody id="bulletinsBody">
+                        <tbody>
                             
                             
                                 <% previewedBulletins.forEach( bull => { %>
@@ -75,12 +76,8 @@
                                         <td>.</td>
                                     </tr>
                                 <% }); %>
-                            
-                            
                         </tbody>
                     </table>
-					
-
 				</div>
 			</div>
 		</div>
@@ -93,8 +90,22 @@
                     return;
                 }
                 console.log("DOM fully loaded and parsed");
+                // Add autosave functionality to the text field
+                const txt = document.getElementById("textField");
+                if (!txt) {
+                    console.error("Text field not found! Script won't run.");
+                    return;
+                }
+                txt.value = localStorage.getItem("autosave") || "";
+                txt.addEventListener("input", () => {
+                    localStorage.setItem("autosave", txt.value);
+                });
+                // Clear the text field when the form is submitted
+                document.getElementById("submit-bulletin").addEventListener("click", () => {
+                    localStorage.removeItem("autosave");
+                });
                 // Add event listeners to all buttons with the class "button-primary"
-                const buttons = document.querySelectorAll('.button-primary');
+                const buttons = table.querySelectorAll('.button-primary');
                 if (buttons.length === 0) {
                     console.error("No buttons found with class 'button-primary'");
                     return;
