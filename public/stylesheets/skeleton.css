@@ -445,6 +445,16 @@ textarea {
   resize: vertical; /* Allow resizing only up/down */
 }
 
+.bulletin {
+  width: 100%; /* Optional: Full width */
+  height: 100px; /* Adjust height as needed */
+  overflow: scroll;
+  padding: 10px;
+  background-color: rgb(235, 235, 235);
+  font-size: medium;
+  line-height: normal;
+}
+
 .hidden {
   display: none;
 }
