@@ -39,7 +39,7 @@
                     
 					<h1><%= title %></h1>
                     <p>Logged in as '<%= username %>' _|_  <a href="/logout"> Log out</a></p>
-                    <p></p><a href="/calendar">Go to User's Calendar</a></p>	
+                    <p></p><a href="/calendar">Go to Calendar</a></p>	
                     <h3></h3>
                     <form id="bulletin" action="/editorDashboard" method="post">
                         <label for="textField">Create New Bulletin</label>
@@ -49,14 +49,14 @@
                             name="textField"
                             required
                         ></textarea><br>
-                        <button type="submit">Post to User's Calendar</button>
+                        <button class="button-primary" type="submit">>>>>> Post to Calendar </button>
                     </form>
                     <!-- Table Showing Most Previous Bulletins -->
-                    <h4>Previously Announced</h4>
+                    
                     <table>
                         <thead>
                             <tr>
-                                <th>Content</th>
+                                <th>Old Posts</th>
                                 <th>Date Created</th>
                                 <th>Details</th>
 
