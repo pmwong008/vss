@@ -126,7 +126,7 @@
                             <p><strong>Date Created:</strong> ${data.createdAt}</p>
                         `;
 
-                        const newWindow = window.open('', 'Bulletin Details', 'width=600,height=400');
+                        const newWindow = window.open('', 'Bulletin Details', 'width=750,height=450');
                         
                         if (newWindow) {
                             newWindow.document.write(`
@@ -134,7 +134,7 @@
                                 <head>
                                     <title>Bulletin Details</title>
                                     <style>
-                                        body { font-size: 48px; padding: 20px; }
+                                        body { font-size: 36px; padding: 20px; }
                                     </style>
                                 </head>
                                 <body>${bulletinDetails}</body>
