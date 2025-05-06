@@ -52,12 +52,12 @@
                         <button class="button-primary" type="submit">>>>>> Post to Calendar </button>
                     </form>
                     <!-- Table Showing Most Previous Bulletins -->
-                    
+                    <h4>Old Posts</h4>
                     <table>
                         <thead>
                             <tr>
-                                <th>Old Posts</th>
-                                <th>Date Created</th>
+                                <th>Created on...</th>
+                                <th>Preview...</th>
                                 <th>Details</th>
 
                             </tr>
@@ -67,8 +67,8 @@
                             
                                 <% previewedBulletins.forEach( bull => { %>
                                     <tr>
-                                        <td><%= bull.textField %></td>
                                         <td><%= new Date(bull.createdAt).toDateString().slice(4) %></td>
+                                        <td><%= bull.textField %></td>
                                         <td>
                                             <button type="button" class="button-primary" data-id="<%= bull._id %>" > Get Details</button>
                                         </td>
