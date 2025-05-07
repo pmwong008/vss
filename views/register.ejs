@@ -115,12 +115,12 @@
 
           if (response.ok) {
             button.closest("tr").remove(); // Remove the table row on successful deletion
-            alert("Request has been handled.");
+            alert("One item is archived.");
           } else {
-            alert("Failed to clear newBee. Please try again.");
+            alert("Failed to archive newBee. Please try again.");
           }
         } catch (error) {
-          console.error("Error while deleting newbee:", error);
+          console.error("Error while sending newbee to archive:", error);
           alert("Something went wrong. Please try again later.");
         }
       });

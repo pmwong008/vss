@@ -15,7 +15,7 @@ const handleNewUser = async (req, res) => {
               <head>
                 <style>
                   body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-                  .error-message { font-size: 28px; color: red; font-weight: bold; }
+                  .error-message { font-size: 40px; color: red; font-weight: bold; }
                 </style>
               </head>
               <body>
@@ -45,8 +45,23 @@ const handleNewUser = async (req, res) => {
         });
 
         console.log('New user registered:', result);
-        res.render('confirmRegistration', { username: result.username });
+        // res.render('confirmRegistration', { username: result.username });
         // res.status(201).json({ 'success': `New user ${user} created!` });
+        res.status(201).send(`
+            <html>
+              <head>
+                <style>
+                  body { font-family: Raleway, Arial, sans-serif; text-align: center; margin-top: 100px; }
+                  .success-message { font-size: 40px; color: green; font-weight: bold; }
+                </style>
+              </head>
+              <body>
+                <h3 class="success-message">New user ${user} created!</h3>
+                <a href="/register" style="font-size: 36px; color: blue; text-decoration: underline;">Register another user</a>
+              </body>
+            </html>
+          `);
+
     } catch (err) {
         console.error('Error registering new user:', err);
         res.status(500).send('An error occurred while registering the new user.');

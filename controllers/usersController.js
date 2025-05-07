@@ -81,7 +81,7 @@ const archiveNewbee = async (req, res) => {
         const { id } = req.params; // Get ID from request parameters
         if (!id) return res.status(400).json({ message: 'NewBee ID required' });
 
-        // Fetch newbee details before deletion
+        // Fetch newbee details before remove from list
         const newbeeToArchive = await Newbee.findById(id);
         if (!newbeeToArchive) {
             return res.status(404).json({ message: `NewBee ID ${id} not found` });
@@ -96,7 +96,9 @@ const archiveNewbee = async (req, res) => {
 
         // Fetch updated newbee list after deletion
         // res.render('confirmDeleteNewBee', { deletedNewBee, message: `NewBee '${deletedNewBee}' was deleted successfully` });
-        res.json({ message: `NewBee '${ archiveNewbee }' was archived successfully` });
+        // res.json({ message: `NewBee '${ archiveNewbee }' was archived successfully` });
+        res.json({ success: true });
+        
     } catch {
         console.error('Error deleting newbee:', error);
         res.status(500).json({ message: 'Server error occurred' });
