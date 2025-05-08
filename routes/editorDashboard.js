@@ -23,7 +23,7 @@ router.route('/')
 
             const previewedBulletins = bulletins.map( b => ({
                 _id: b._id,  // Preserve ID for alignment
-                textField: getPreview( b.textField, 7 ), // Generate preview
+                textField: getPreview( b.textField, 5 ), // Generate preview
                 createdAt: b.createdAt // Include createdAt for sorting
             }));
             

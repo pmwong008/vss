@@ -40,7 +40,8 @@ const verifyJWT = (req, res, next) => {
 
             // decoded.UserInfo.roles = Object.values(decoded.UserInfo.roles).filter(Boolean);
             req.user = decoded.UserInfo;
-            console.log("Decoded User Info:", req.user); // Debugging            // Convert roles to an array for validation
+            console.log("Decoded User Info:", req.user); // Debugging            
+            // Convert roles to an array for validation
 
             // req.user.roles = decoded.UserInfo.roles;
             // req.roles = decoded.UserInfo.roles;

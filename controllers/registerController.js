@@ -57,7 +57,8 @@ const handleNewUser = async (req, res) => {
               </head>
               <body>
                 <h3 class="success-message">New user ${user} created!</h3>
-                <a href="/register" style="font-size: 36px; color: blue; text-decoration: underline;">Register another user</a>
+                <a href="/register" style="font-size: 36px; color: blue; text-decoration: underline;">Register another user</a><br>
+                <a href="/adminDashboard" style="font-size: 36px; color: blue; text-decoration: underline;">Back to Dashboard</a>
               </body>
             </html>
           `);
