@@ -20,6 +20,7 @@ router.get('/', verifyRoles(ROLES_LIST.Admin), async (req, res) => {
     res.render('register', { bees, title: 'Add New User' });
 });
 
-router.post('/', verifyRoles(ROLES_LIST.Admin), registerController.handleNewUser);
+// router.post('/', verifyRoles(ROLES_LIST.Admin), registerController.handleNewUser);
+router.post('/', registerController.handleNewUser);
 
 module.exports = router;

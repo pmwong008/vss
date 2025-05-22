@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../stylesheets/skeleton.css">
+  <link rel="stylesheet" href="../stylesheets/normalize.css">
+  <!-- Favicon
+		    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="icon" type="image/png" href="../images/favicon.png">
+  <title>User Login</title>
+</head>
+<body>
+    <div class="container">
+        
+  
+    <div class="row">
+        
+        <div class="one-half column" style="margin-top: 25%">
+
+            <h2>Testing Registration</h2>
+
+
+    <form id="register" action="/register" method="post">
+        <label for="username">Assign Username</label>
+        <input
+          id="username"
+          type="text"
+          name="user"
+          autocomplete="username"
+          required
+        ><br>
+        <label for="password">Assign Password</label>
+        <input
+          id="password"
+          type="password"
+          name="pwd"
+          autocomplete="current-password"
+          required
+        ><br>
+        <label for="roles">Assign Role:</label>
+        <select id="roles" name="roles">
+            <option value="User">User</option>
+            <option value="Editor">Editor</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <br><br>
+      
+        <button type="submit" class="button-primary">Register</button>
+      </form>
+      <hr>
+
+
+  </div></div></div>
+
+  
+</body>
+</html>
+
