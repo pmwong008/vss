@@ -10,7 +10,13 @@ router.get('^/$|/index(.html)?', (req, res)  => {
   res.render('index.ejs', { title: 'VSS' });
 });
 
-router.post('/requestToJoin', async (req, res) => {
+router.route('/requestToJoin')
+  
+  .get( (req, res) => {
+    res.render('requestToJoin.ejs', { title: 'VSS' });
+  })
+
+  .post( async (req, res) => {
   try {
     const { name, phone } = req.body;
 
