@@ -25,35 +25,34 @@
             <hr>
             <h2><%= title %></h2>
 
-    <form id="register" action="/register" method="post">
-        <label for="username">Assign Username</label>
-        <input
-          id="username"
-          type="text"
-          name="user"
-          autocomplete="username"
-          required
-        ><br>
-        <label for="password">Assign Password</label>
-        <input
-          id="password"
-          type="password"
-          name="pwd"
-          autocomplete="current-password"
-          required
-        ><br>
-        <label for="roles">Assign Role:</label>
-        <select id="roles" name="roles">
-            <option value="User">User</option>
-            <option value="Editor">Editor</option>
-            <option value="Admin">Admin</option>
-        </select>
-        <br><br>
-      
-        <button type="submit" class="button-primary">Register</button>
-      </form>
-      <hr>
-
+  
+      <table id="newBees" class="u-full-width">
+        <thead>
+          <tr>
+            <th><strong>Name</strong></th>
+            <th><strong>Phone</strong></th>
+            <th><strong>Action</strong></th>
+          </tr>
+        </thead>
+        <tbody id="newBeesTableBody">
+          <% if (bees.length === 0) { %>
+            <tr>
+              <td colspan="2">No new requests</td>
+            </tr>
+          <% } else { %>
+            <% bees.forEach(bee => { %>
+              <tr>
+                <td><%= bee.name %></td>
+                <td><%= bee.phone %></td>
+                <td>
+                  <button type="button" class="delete-button" data-id="<%= bee._id %>" >Archive</button>
+                </td>
+                <td>.</td>
+              </tr>
+            <% }); %>
+          <% } %>
+        </tbody>
+      </table><br>
 
   </div></div></div>
 
@@ -68,14 +67,14 @@
 
     deleteButtons.forEach(button => {
       button.addEventListener("click", async () => {
-        const newBeeId = button.getAttribute("data-id"); 
+        const beeId = button.getAttribute("data-id"); 
         
         const userConfirmed = window.confirm("Are you sure you want to archive this bee?");
 
         if (!userConfirmed) return; // Exit if user cancels
 
         try {
-          const response = await fetch(`/users/archiveNewbee/${newBeeId}`, {
+          const response = await fetch(`/bees/archiveBee/${beeId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
           });

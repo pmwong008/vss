@@ -1,5 +1,5 @@
 const User = require('../model/User');
-const Newbee = require('../model/Newbee');
+
 const ROLE_LIST = require('../config/roles_list');
 
 const getAllUsers = async (req, res) => {
@@ -76,45 +76,6 @@ const deleteUser = async (req, res) => {
     }
 };
 
-const archiveNewbee = async (req, res) => {
-    try {
-        const { id } = req.params; // Get ID from request parameters
-        if (!id) return res.status(400).json({ message: 'NewBee ID required' });
-
-        // Fetch newbee details before remove from list
-        const newbeeToArchive = await Newbee.findById(id);
-        if (!newbeeToArchive) {
-            return res.status(404).json({ message: `NewBee ID ${id} not found` });
-        }
-
-        const archiveNewbee = newbeeToArchive.name; // Store username before deletion
-        
-        const result = await Newbee.findByIdAndUpdate(id, { Archived: true });
-        if (!result) {
-            return res.status(404).json({ message: `NewBee ID ${id} not found` });
-        }
-
-        // Fetch updated newbee list after deletion
-        // res.render('confirmDeleteNewBee', { deletedNewBee, message: `NewBee '${deletedNewBee}' was deleted successfully` });
-        // res.json({ message: `NewBee '${ archiveNewbee }' was archived successfully` });
-        res.json({ success: true });
-        
-    } catch {
-        console.error('Error deleting newbee:', error);
-        res.status(500).json({ message: 'Server error occurred' });
-    }
-}
-
-/* const retrieveNewbeesFromArchive = async (req, res) => {
-    try {
-        await Newbee.updateMany({}, { $set: { Archived: false } });
-    } catch (error) {
-        console.error('Error archiving newbees:', error);
-        res.status(500).json({ message: 'Server error occurred' });
-    }
-}    */
-    
-
 const getUser = async (req, res) => {
     if (!req?.params?.id) return res.status(400).json({ "message": 'User ID required' });
     const user = await User.findOne({ _id: req.params.id }).exec();
@@ -189,8 +150,6 @@ const updateUserRemarks = async (req, res) => {
 module.exports = {
     getAllUsers,
     deleteUser,
-    archiveNewbee,
-    // retrieveNewbeesFromArchive,
     getUser,
     updateUserRole,
     updateUserRemarks

@@ -16,7 +16,4 @@ router.post('/deleteUser',(verifyRoles(ROLES_LIST.Admin), usersController.delete
 router.post('/updateUserRole', (verifyRoles(ROLES_LIST.Admin), usersController.updateUserRole));
 router.post('/updateUserRemarks', (verifyRoles(ROLES_LIST.Admin), usersController.updateUserRemarks));
 
-router.post('/archiveNewbee/:id', (verifyRoles(ROLES_LIST.Admin), usersController.archiveNewbee));
-
-
 module.exports = router;
