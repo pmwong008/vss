@@ -43,9 +43,9 @@
             <% bees.forEach(bee => { %>
               <tr>
                 <td><%= bee.name %></td>
-                <td><%= bee.phone %></td>
+                <td><%= bee.phone.replace(/\d(?=\d{4})/g, "*") %></td>
                 <td>
-                  <button type="button" class="delete-button" data-id="<%= bee._id %>" >Archive</button>
+                  <button type="button" class="delete-button" data-id="<%= bee.id %>" >Archive</button>
                 </td>
                 <td>.</td>
               </tr>

@@ -2,10 +2,11 @@ const crypto = require("crypto");
 
 // Utility functions for encryption/decryption
 const algorithm = "aes-256-cbc";
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
+const key = Buffer.from(process.env.ENCRYPTION_KEY, "hex");
+// const iv = crypto.randomBytes(16);
 
 function encryptPhone(phone) {
+    const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(algorithm, key, iv);
     let encrypted = cipher.update(phone, "utf8", "hex");
     encrypted += cipher.final("hex");

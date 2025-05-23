@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var router = express.Router();
 const path = require('path');
 const Newbee = require('../model/Newbee');
+const { encryptPhone } = require('../utils/phoneCrypt');
 
 /* GET home page. */
 router.get('^/$|/index(.html)?', (req, res)  => {
@@ -24,18 +25,20 @@ router.route('/requestToJoin')
       return res.status(400).json({ message: 'Name and phone are required' });
     }
 
-    // Create a new instance of the Newbee model
-    const newbee = new Newbee({
-      name,
-      phone,
+    const encryptedData = encryptPhone(phone);
+    const bee = new Newbee({
+        name,
+        phone: {
+            encryptedData: encryptedData.encryptedData,
+            iv: encryptedData.iv
+        }
     });
-    await newbee.save();
 
-  console.log(`Received data: Name - ${name}, Phone - ${phone}`);
+    await bee.save();
+    console.log("NewBee saved:", bee);
+    console.log(`Received data: Name - ${name}, Phone - ${phone}`);
 
-  // Respond to the client
-  // res.status(200).json({ message: 'Data saved successfully' });
-  res.render('requestReceived', { name });
+    res.render('requestReceived', { name });
 
 } catch (error) {
   console.error('Error saving data:', error);

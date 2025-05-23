@@ -1,12 +1,37 @@
 const Newbee = require('../model/Newbee');
+const mongoose = require('mongoose'); // Import the Mongoose library
+const { decryptPhone } = require('../utils/phoneCrypt'); // Import the decryption utility
+
 
 const allBees = async (req, res) => {
     try {
         console.log('All Bees route hit!'); // Debugging
-        const bees = await Newbee.find({ Archived: false });
-        if (!bees) return res.status(204).json({ 'message': 'No newbees found.' });
-        console.log('Type of bees:', typeof bees); // Debugging
-        console.log('Bees fetched from DB:', bees); // Debugging
+
+        const beesFromDB = await Newbee.find({ Archived: false });
+        if (!beesFromDB) return res.status(204).json({ 'message': 'No newbees found.' });
+
+        console.log("beesFromDB:", Array.isArray(beesFromDB), beesFromDB);
+        // Check if the data is an array
+        console.log("First bee:", beesFromDB[0]);
+
+        beesFromDB.forEach(bee => {
+            console.log(`Decrypting phone for ${bee.name}:`, decryptPhone(bee.phone.encryptedData, bee.phone.iv));
+        }); 
+
+        /* beesFromDB.forEach(bee => {
+            console.log(`Name: ${bee.name}, Phone: ${decryptPhone(bee.phone.encryptedData, bee.phone.iv)}`);
+        });  */
+        
+
+        const bees = beesFromDB.map(bee => ({
+            id: bee._id,
+            name: bee.name,
+            phone: bee.phone?.encryptedData && bee.phone?.iv
+                ? decryptPhone(bee.phone.encryptedData, bee.phone.iv)
+                : "No phone data"
+        }));
+        
+        // res.json(bees);
         res.render('newbees', { bees, title: 'New Bees' });
 
     } catch {
