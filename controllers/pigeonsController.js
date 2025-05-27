@@ -3,7 +3,7 @@ const Pigeon = require('../model/Pigeon');
 const calculateWeekday = require('../utils/calculateWeekday'); // Import the utility function
 
 const servePigeonForm = async (req, res) => {
-    const username = req.cookies?.username;
+    const { username } = req.user;
     res.render('pigeonForm', { vName: username, title: 'Pigeon Form' });
 }
 
@@ -19,7 +19,7 @@ const getUserPigeons = async (req, res) => {
 		console.log("Get User Pigeons route hit!"); 
 		console.log("Query Parameters:", req.query); // Debug query parameters
         // const username = req.query?.username;// Check for valid username
-		const { username } = req.cookies; 
+		const { username } = req.user; // Get username from request object (assuming it's set by middleware)
 		// const sortOrder = req.query?.order === "desc" ? -1 : 1; // Default to ascending order
 		if (!username || typeof username !== 'string') {
             return res.status(400).json({ message: "Invalid username provided." });
@@ -37,12 +37,12 @@ const getUserPigeons = async (req, res) => {
 
 		if (!pigeons || pigeons.length === 0) {
 			// return res.status(204).json({ 'message': 'No pigeons found.' });
-			return res.render('pigeonsByUsername', { vName: username, pigeons: [], message: "You currently have no scheduled sessions." });
+			return res.render('pigeonsMySessions', { vName: username, pigeons: [], message: "You currently have no scheduled sessions." });
 		}
 
 		//res.json(pigeons);
 		// res.render('pigeonsByUsername', { pigeons, vName: username, sortOrder }, { async: true });
-		res.render('pigeonsByUsername', { pigeons, vName: username });
+		res.render('pigeonsMySessions', { pigeons, vName: username });
 	
 	} catch (error) {
 		console.error("Error while trying to find pigeons:", error);
@@ -55,8 +55,8 @@ const createPigeon = async (req, res) => {
 	
 	console.log('Request Body:', req.body); // Log incoming data
     try {
-		const username = req.cookies?.username;
-		console.log("Username from cookie:", username); // Debug username
+		const { username } = req.user;
+		console.log("Username from req.user:", username); // Debug username
         const { rDate, availability } = req.body;
 		
         if (!req.body.rDate || !req.body.availability) {
@@ -104,7 +104,7 @@ const createPigeon = async (req, res) => {
 		// Save the document
 		const result = await document.save();
 
-		res.redirect(303, `/pigeons/getUserPigeons?username=${username}`);
+		res.redirect(303, `/pigeons/getUserPigeons?username=${ username }`);
 
 	} catch (error) {
 		console.error("Error while trying to insert document into Pigeons:", error);

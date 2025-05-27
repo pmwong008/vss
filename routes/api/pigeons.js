@@ -9,11 +9,8 @@ const verifyJWT = require('../../middleware/verifyJWT');
 router.route('/')
     .post(verifyRoles(ROLES_LIST.User), pigeonsController.createPigeon)
 
-    
-
 router.route('/form')
     .get(pigeonsController.servePigeonForm)
-    
     
 // router.get('/getUserPigeons', handleRefreshToken, pigeonsController.getUserPigeons);    
 router.get('/getUserPigeons', verifyRoles(ROLES_LIST.User, ROLES_LIST.Admin), pigeonsController.getUserPigeons);    

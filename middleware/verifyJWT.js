@@ -24,6 +24,7 @@ const verifyJWT = (req, res, next) => {
               </head>
               <body>
                 <h3 class="error-message">Authentication Failed!</h3>
+                <h3 class="error-message">Or Connection Time Out!</h3>
                 <h3 class="link"><a href="/">Go to Home and Login</a></h3>
               </body>
             </html>
