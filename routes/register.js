@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     res.render('register', { title: 'Add New User' }); 
 });
 
-// router.post('/', verifyRoles(ROLES_LIST.Admin), registerController.handleNewUser);
-router.post('/', registerController.handleNewUser);
+router.post('/', verifyRoles(ROLES_LIST.Admin), registerController.handleNewUser);
+// router.post('/', registerController.handleNewUser);
 
 module.exports = router;
