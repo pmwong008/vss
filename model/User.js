@@ -18,7 +18,12 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    phone: {
+        encryptedData: { type: String, required: false },
+        iv: { type: String, required: false }
+    },
     remarks: { type: String, default: "" },
+    
     refreshToken: String
 });
 

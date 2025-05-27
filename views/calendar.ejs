@@ -60,10 +60,12 @@
 			<div class="bulletin"
 				<p>>>>>><%= bulletin.textField %></p>
 			</div><br>
-			<p>Logged in as '<%= username %>' _|_  <a href="/logout"> Log out</a></p>
+			
+			
+			<p>Logged in as '<%= user.username %>' _|_  <a href="/logout"> Log out</a></p> _|_  <a href="/users/updatePassword"> Change Password</a></p>
 			<p>
-			<a href="/pigeons/form">Sign-up Sheet  </a>  _|_
-					<a href="/pigeons/getUserPigeons?username=<%= username %>"> My Sessions</a>
+				<a href="/pigeons/form">Sign-up Sheet  </a>  _|_
+				<a href="/pigeons/getUserPigeons"> My Sessions</a>
 			</p>
 
 			<div class="row">

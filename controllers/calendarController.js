@@ -6,7 +6,10 @@ const Bulletin = require('../model/Bulletin'); // Import the Bulletin model
 const showCalendar = async (req, res) => {
     try { 
         // const username = req.cookies?.username || 'Guest'; // Handle missing user info
-        const { username } = req.user; 
+        console.log("User Info from Request:", req.user); // Debugging
+        
+        const user = req.user; // Handle missing user info
+        // const user = req.user || {}; // Get user from request, default to empty object if not available
         const month = parseInt(req.query.month) || new Date().getMonth() + 1; // Default to current month if not specified 
         const year = parseInt(req.query.year) || new Date().getFullYear(); // Default to current year if not specified 
         const timezoneOffset = 8 * 60 * 60 * 1000;
@@ -71,7 +74,7 @@ const showCalendar = async (req, res) => {
         });   
         // console.log('Updated Day Cards:', dayCards); // Debug log
         
-        res.render('calendar', { username, dayCards, month, year, startDay, bulletin }); 
+        res.render('calendar', { user, dayCards, month, year, startDay, bulletin }); 
       } catch (error) { 
         console.error("Error while generating calendar view:", error); 
         res.status(500).send("Error while generating calendar view: " + error.message); 

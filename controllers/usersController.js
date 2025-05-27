@@ -1,6 +1,6 @@
 const User = require('../model/User');
+const bcrypt = require('bcryptjs');
 
-const ROLE_LIST = require('../config/roles_list');
 
 const getAllUsers = async (req, res) => {
     const users = await User.find();
@@ -8,11 +8,13 @@ const getAllUsers = async (req, res) => {
     if (!users || users.length === 0) {
         return res.render('noUser', { message: 'No user found' }); // Render a separate view if no users exist    res.json(users);
     }
-    // Filter out only assigned roles before passing data to the view
-/*     const mappedUsers = users.map( e => ({
-        ...e._doc,
-        roles: Object.keys(e.roles).filter(role => e.roles[role] !== undefined) // Extract role names
-    })); */
+
+    // Understanding Mongoose properties
+    users.forEach(user => {
+        console.log("User with Mongoose properties:", user);
+        console.log("Raw document data (_doc):", user._doc);
+    });
+    
 
     const mappedUsers = users.map( e => ({
         ...e._doc,
@@ -147,10 +149,81 @@ const updateUserRemarks = async (req, res) => {
     }
 };
 
+const getUpdatePasswordPage = async (req, res) => {
+    // This function serves the update password page
+    // It can be used to render a view or return a message
+    console.log('Serve Update Password Page route hit!'); // Debugging
+    const { username } = req.user; // Get username from authenticated user
+    if (!username) {
+        return res.status(400).json({ message: 'Username is required.' });
+    }
+    // Find the user by username
+    const user = await User.findOne({ username }); 
+    if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+    }
+    res.render('updatePassword', { user, title: 'Update Password' });
+}
+
+const postUpdatePasswordPage = async (req, res) => {
+    // This function is not implemented yet
+    // Authenticate the user, validate the new password, and update it in the database
+    // You can use bcrypt to hash the new password before saving it
+    console.log('Update Password post route hit!'); // Debugging
+    try {
+        const { username } = req.user; // Get username from authenticated user
+        const user = await User.findOne({ username }); // Assuming req.params.id is the user ID
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+        console.log('User found:', user); // Debugging
+        // Assuming req.body contains the current password and new password
+        const { currentPassword, newPassword, newPassword2 } = req.body; // Get user ID and new password from request
+        if (!req.body.currentPassword || !req.body.newPassword || !req.body.newPassword2) {
+            return res.status(400).json({ message: 'Missing required fields.' });
+        }
+        
+        console.log('Received data:', { currentPassword, newPassword, newPassword2 }); // Debugging
+        
+        // Validate input
+        const isMatch = await bcrypt.compare(currentPassword, user.password); // Compare current password with stored hash
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Current password is incorrect.' });
+        }
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: 'New password must be at least 6 characters long.' });
+        }
+        if (newPassword !== newPassword2) {
+            return res.status(400).json({ message: 'New passwords do not match.' });
+        }
+
+        if (newPassword === currentPassword) {
+            return res.status(400).json({ message: 'New password cannot be the same as the current password.' });
+        }
+        if (newPassword === user.username) {
+            return res.status(400).json({ message: 'New password cannot be the same as the username.' });
+        }
+
+
+        // Hash the new password using bcrypt
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword; // Update password field
+
+        await user.save(); // Save changes
+        res.render('confirmUpdatePassword', { user: user.username, message: 'Password updated successfully.' });
+    } catch (error) {
+        console.error('Error updating password:', error);
+        res.status(500).json({ message: 'Server error occurred.' });
+    }
+    
+}
+
 module.exports = {
     getAllUsers,
     deleteUser,
     getUser,
     updateUserRole,
-    updateUserRemarks
+    updateUserRemarks,
+    getUpdatePasswordPage,
+    postUpdatePasswordPage
 }

@@ -52,13 +52,14 @@ app.use('/auth', require('./routes/auth'));
 
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
-app.use('/calendar', require('./routes/api/calendar'));
+// app.use('/calendar', require('./routes/api/calendar'));
 app.use('/register', require('./routes/register')); // move route to above verifyJWT for testing
 
 
 app.use(verifyJWT);
 app.use('/adminDashboard', require('./routes/adminDashboard'));
 app.use('/editorDashboard', require('./routes/editorDashboard'));
+app.use('/calendar', require('./routes/api/calendar'));
 // app.use('/register', require('./routes/register'));
 app.use('/employees', require('./routes/api/employees'));
 app.use('/users', require('./routes/api/users'));
