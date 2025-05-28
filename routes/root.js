@@ -7,6 +7,7 @@ const {encryptPhone} = require('../utils/phoneCrypt');
 
 /* GET home page. */
 router.get('^/$|/index(.html)?', (req, res) => { // res.render('index', { title: 'VSS' });
+	
 	res.render('index.ejs', {title: 'VSS'});
 });
 

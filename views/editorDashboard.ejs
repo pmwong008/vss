@@ -33,7 +33,6 @@
 	</head>
 	<body>
 		<div class="container">
-            
 			<div class="'row"></div>
 				<div style="margin-top: 5%">
                     
@@ -64,25 +63,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            
-                                <% previewedBulletins.forEach( bull => { %>
-                                    <tr>
-                                        <td><%= bull.textField %></td>
-                                        <td><%= new Date(bull.createdAt).toDateString().slice(4) %></td>
-                                        <td>
-                                            <button type="button" class="button-primary" data-id="<%= bull._id %>" > Get Details</button>
-                                        </td>
-                                        <td>.</td>
-                                    </tr>
-                                <% }); %>
+                            <% previewedBulletins.forEach( bull => { %>
+                            <tr>
+                                <td><%= bull.textField %></td>
+                                <td><%= new Date(bull.createdAt).toDateString().slice(4) %></td>
+                                <td>
+                                    <button type="button" class="button-primary" data-id="<%= bull._id %>" > Get Details</button>
+                                </td>
+                                <td>.</td>
+                            </tr>
+                            <% }); %>
                         </tbody>
                     </table>
 				</div>
 			</div>
 		</div>
         <script>
-
             document.addEventListener("DOMContentLoaded", () => {
                 const table = document.getElementById("bulletinsBody"); // Make sure your table has this ID
                 if (!table) {
@@ -130,7 +126,6 @@
                             return;
                         }
 
-                        
                         const bulletinDetails = `
                             <h2>Bulletin Details</h2>
                             <p><strong>Content:</strong> ${data.textField}</p>
@@ -164,6 +159,6 @@
                     });
                 });
             });
-            </script>
+        </script>
 	</body>
 </html>
