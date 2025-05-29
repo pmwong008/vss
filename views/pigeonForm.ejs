@@ -44,21 +44,24 @@
 					<a href="/logout">Log out</a><br>
 					<a href="/calendar">Back to Calendar</a><br>
 					<hr>
-					<h3>I am available on...
+					<h3>選擇日期及上下午
 					</h3><br>
 
 					<form action="/pigeons" method="post" onsubmit="this.submitButton.disabled=true; return true;">
 
-						<label for="rDate">Select Date:</label>
+						<label for="rDate">日期:</label>
 						<input type="date" id="rDate" name="rDate" min="2025-05-01" max="2025-08-31" step="1" required/><br><br>
 
-						<label for="availability">Select AM/PM:</label>
+						<label for="availability">上午/下午:</label>
 						<select name="availability" id="availability" required>
 							<option value="" disabled selected>-- Select AM | FM --</option>
 							<option value="AM">AM</option>
 							<option value="PM">PM</option>
 
 						</select><br><br>
+						<i>
+							確認後可以取消，但從本網站取消須提早3天；如果少於3天，須以短訊通知管理員。
+						</i>
 
 						<button type="submit" class="button-primary" name="submitButton">Submit</button>
 						
