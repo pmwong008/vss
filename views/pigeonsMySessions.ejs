@@ -50,7 +50,7 @@
 					<% if (pigeons.length === 0) { %>
                 	<h3><%= message %></h3>
                 	<% } else { %>
-                  	<h4>You have signed up for the sessions:</h4>
+                  	<h4>Your Sign-up Record:</h4>
                   	<% pigeons.forEach(function(session) { %>
                     <tr>
                       <td class="session-date"><%= new Date(session.rDate).toDateString().slice(4) %></td>
