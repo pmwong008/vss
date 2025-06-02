@@ -9,8 +9,8 @@ const Bulletin = require('../model/Bulletin');
 router.route('/')
     .get(verifyRoles(ROLES_LIST.Editor, ROLES_LIST.Admin), async (req, res) => {
         try {
-            const username = req.cookies.username;
-            if (!username) {
+            const user = req.user;
+            if (!user) {
                 return res.status(401).render('error', { message: "Unauthorized" });
             }
             
@@ -27,7 +27,7 @@ router.route('/')
                 createdAt: b.createdAt // Include createdAt for sorting
             }));
             
-            res.render('editorDashboard', { title: 'Editor Dashboard', username, previewedBulletins });
+            res.render('editorDashboard', { title: 'Editor Dashboard', user, previewedBulletins });
 
         } catch (error) {
             console.error("Error while trying to render editor dashboard:", error);

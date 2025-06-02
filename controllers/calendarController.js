@@ -15,7 +15,7 @@ const showCalendar = async (req, res) => {
         const timezoneOffset = 8 * 60 * 60 * 1000;
         const {dayCards, startDay} = generateDayCards(month, year); 
         // const bulletin = await Bulletin.find({}).sort({ createdAt: -1 }).limit(1).exec(); // Fetch the latest bulletin
-        const bulletin = await Bulletin.findOne().sort({ createdAt: -1 }).exec();
+        const bulletin = await Bulletin.findOne({ isCoverMessage: false }).sort({ createdAt: -1 }).exec();
         if (!bulletin) { 
             throw new Error("No bulletin found"); 
           }

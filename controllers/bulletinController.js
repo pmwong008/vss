@@ -1,15 +1,32 @@
 const Bulletin = require('../model/Bulletin'); // Import the Bulletin model
 
 const createBulletin = async (req, res) => {
-    const { textField } = req.body;
+    try {
+
+    
+    const { textField, submitType } = req.body;
     if (!textField) {
         return res.status(400).json({ 'message': 'Text field is required.' });
     }
 
-    try {
-        const newBulletin = new Bulletin({ textField });
-        await newBulletin.save();
-        
+    if (submitType === 'cover') {
+    
+        // Update the existing cover message OR create one if none exists
+        /* await Bulletin.findOneAndUpdate(
+            { isCoverMessage: true }, // Look for an existing cover message
+            { textField, isCoverMessage: true }, // Update the message
+            { upsert: true } // Create one if none exists
+        ); */
+        await Bulletin.create(
+            { textField, isCoverMessage: true } // Update the message
+        ); 
+    } else {
+        // Save a regular bulletin entry
+        await Bulletin.create(
+            { textField, isCoverMessage: false }
+        );
+    }
+      
         // res.status(201).json({ message: 'Bulletin created successfully.', bulletin: newBulletin });
         res.redirect(301, '/editorDashboard'); // Redirect to the editor dashboard after creating the bulletin
     } catch (error) {

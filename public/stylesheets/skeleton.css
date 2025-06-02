@@ -447,7 +447,7 @@ textarea {
 
 .bulletin {
   width: 100%; /* Optional: Full width */
-  height: 100px; /* Adjust height as needed */
+  height: 130px; /* Adjust height as needed */
   overflow: auto; /* Enable scrolling if content overflows */
   padding: 10px;
   background-color: rgb(235, 235, 235);

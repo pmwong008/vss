@@ -9,7 +9,12 @@ const bulletinSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  } 
+  },
+  
+  isCoverMessage: { 
+    type: Boolean, 
+    default: false 
+  } // New field to differentiate messages
 
 });
 

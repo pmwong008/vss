@@ -4,11 +4,20 @@ var router = express.Router();
 const path = require('path');
 const Newbee = require('../model/Newbee');
 const {encryptPhone} = require('../utils/phoneCrypt');
+const Bulletin = require('../model/Bulletin');
 
 /* GET home page. */
-router.get('^/$|/index(.html)?', (req, res) => { // res.render('index', { title: 'VSS' });
-	
-	res.render('index.ejs', {title: 'VSS'});
+router.get('^/$|/index(.html)?', async (req, res) => { // res.render('index', { title: 'VSS' });
+	let coverMessage = await Bulletin.findOne({ isCoverMessage: true }).sort({ createdAt: -1 });
+	if (!coverMessage) {
+		coverMessage = {
+			textField: 'Welcome to VSS! Please check back later for updates.',
+			createdAt: new Date()
+		};
+		res.render('index.ejs', { coverMessage });
+	} else {
+	res.render('index.ejs', { coverMessage });
+	}
 });
 
 router.route('/requestToJoin')

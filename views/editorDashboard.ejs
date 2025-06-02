@@ -37,7 +37,7 @@
 				<div style="margin-top: 5%">
                     
 					<h1><%= title %></h1>
-                    <p>Logged in as '<%= username %>' _|_  <a href="/logout"> Log out</a></p>
+                    <p>Logged in as '<%= user.username %>' _|_  <a href="/logout"> Log out</a></p>
                     <p></p><a href="/calendar">Go to Calendar</a></p>	
                     <h3></h3>
                     <form id="bulletin" action="/editorDashboard" method="post">
@@ -49,7 +49,8 @@
                             name="textField"
                             required
                         ></textarea><br>
-                        <button id="submit-bulletin" class="button-primary" type="submit">>>>>> Post to Calendar </button>
+                        <button id="submit-bulletin" class="button-primary" type="submit" name="submitType" value="bulletin">>>>>> Post to Calendar </button>
+                        <button id="submit-cover" class="button-primary" type="submit" name="submitType" value="cover">>>>>> Post to Cover </button>
                     </form>
                     <!-- Table Showing Most Previous Bulletins -->
                     
@@ -98,6 +99,10 @@
                 });
                 // Clear the text field when the form is submitted
                 document.getElementById("submit-bulletin").addEventListener("click", () => {
+                    localStorage.removeItem("autosave");
+                });
+                // Clear the text field when the form is submitted
+                document.getElementById("submit-cover").addEventListener("click", () => {
                     localStorage.removeItem("autosave");
                 });
                 // Add event listeners to all buttons with the class "button-primary"
